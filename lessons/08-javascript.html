@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08 · JavaScript interactions</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .js-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .widget {
+            padding: 18px;
+            border-radius: 12px;
+            background: white;
+            border: 1px solid var(--border);
+            transition: background 0.25s, color 0.25s;
+        }
+
+        .widget h3 {
+            margin: 0 0 4px;
+            font-size: 16px;
+        }
+
+        .widget p {
+            margin: 0 0 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Dark theme, added by JavaScript (深色主题，由 JS 添加) */
+        .widget.dark {
+            background: #1e1e2e;
+            color: white;
+            border-color: #1e1e2e;
+        }
+
+        .widget.dark p {
+            color: #a8a8bd;
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .chip {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: #f4f4f7;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .chip.active {
+            background: #262626;
+            border-color: #262626;
+            color: white;
+        }
+
+        .chip-result {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .log {
+            height: 150px;
+            margin-top: 16px;
+            overflow-y: auto;
+        }
+
+        .log .t {
+            color: #7dd3fc;
+        }
+
+        @media (max-width: 680px) {
+            .js-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">08 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 08</p>
+        <h1 class="lesson-title">JavaScript interactions</h1>
+        <p class="zh">JavaScript 交互</p>
+
+        <section class="block">
+            <p>Almost every interaction follows the same 3 steps: <b>find</b> an element, <b>listen</b> for an event, then <b>change</b> something.</p>
+            <p class="zh">几乎所有交互都是同样的 3 步：找到元素，监听事件，然后改变某些东西。</p>
+<pre><code>// 1. Find the button (找到按钮)
+const button = document.getElementById("theme-button");
+
+// 2. Listen for a click (监听点击)
+button.addEventListener("click", function () {
+
+    // 3. Change something: add or remove the "dark" class (改变：加上或去掉 dark 类名)
+    card.classList.toggle("dark");
+});</code></pre>
+            <div class="tip">
+                <p>Notice that JavaScript rarely changes colors directly. It adds or removes a <b>class</b>, and CSS decides how that class looks. Like switching a variant in Figma.</p>
+                <p class="zh">注意：JavaScript 很少直接改颜色。它只是加上或去掉一个类名，长什么样由 CSS 决定。就像在 Figma 里切换组件变体。</p>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: watch JavaScript work</h2>
+            <p class="zh">动手试试：看 JavaScript 怎么工作</p>
+            <div class="demo-body">
+                <div class="js-grid">
+                    <div class="widget" id="theme-card">
+                        <h3>Theme switch</h3>
+                        <p>classList.toggle("dark")</p>
+                        <button class="btn" id="theme-button">Change color</button>
+                    </div>
+
+                    <div class="widget">
+                        <h3>Tabs</h3>
+                        <p>Only one can be active</p>
+                        <div class="chip-row" id="chips">
+                            <button class="chip active">All</button>
+                            <button class="chip">RPG</button>
+                            <button class="chip">Puzzle</button>
+                            <button class="chip">New</button>
+                        </div>
+                        <div class="chip-result" id="chip-result">Showing: All</div>
+                    </div>
+
+                    <div class="widget">
+                        <h3>Counter</h3>
+                        <p>textContent = count</p>
+                        <button class="btn ghost" id="minus">−</button>
+                        <b id="count" style="display:inline-block;width:40px;text-align:center;font-size:20px">0</b>
+                        <button class="btn ghost" id="plus">+</button>
+                    </div>
+
+                    <div class="widget">
+                        <h3>Show / hide</h3>
+                        <p>element.hidden = true / false</p>
+                        <button class="btn ghost" id="reveal">Show the answer</button>
+                        <p id="answer" hidden style="margin:12px 0 0;color:var(--success);font-weight:600">🎉 Find → Listen → Change!</p>
+                    </div>
+                </div>
+
+                <pre class="log"><code id="log"><span class="t">// Every time JavaScript does something, it shows up here.</span>
+<span class="t">// JS 每做一件事，都会显示在这里。</span>
+</code></pre>
+            </div>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="07-links.html"><small>← Previous</small>Links and multiple pages</a>
+            <a class="next" href="09-publish.html"><small>Next lesson</small>Publishing your site →</a>
+        </nav>
+    </main>
+
+    <script>
+        const log = document.getElementById("log");
+
+        // Write a line in the log panel (在日志面板里写一行)
+        function say(text) {
+            const time = new Date().toLocaleTimeString();
+            log.innerHTML += '<span class="t">' + time + "</span>  " + text + "\n";
+            log.parentElement.scrollTop = log.parentElement.scrollHeight;
+        }
+
+        // Theme switch (主题切换)
+        const themeCard = document.getElementById("theme-card");
+        document.getElementById("theme-button").addEventListener("click", function () {
+            const isDark = themeCard.classList.toggle("dark");
+            say('click → card.classList.toggle("dark") → ' + (isDark ? "dark ON" : "dark OFF"));
+        });
+
+        // Tabs: remove "active" from all, then add it to the clicked one (标签：先全部去掉 active，再给点击的加上)
+        const chips = document.querySelectorAll(".chip");
+        chips.forEach(function (chip) {
+            chip.addEventListener("click", function () {
+                chips.forEach(function (c) { c.classList.remove("active"); });
+                chip.classList.add("active");
+                document.getElementById("chip-result").textContent = "Showing: " + chip.textContent;
+                say('click → remove "active" from all tabs, add it to "' + chip.textContent + '"');
+            });
+        });
+
+        // Counter (计数器)
+        let count = 0;
+        const countText = document.getElementById("count");
+        document.getElementById("plus").addEventListener("click", function () {
+            count = count + 1;
+            countText.textContent = count;
+            say("click → count = " + count + " → update textContent");
+        });
+        document.getElementById("minus").addEventListener("click", function () {
+            count = count - 1;
+            countText.textContent = count;
+            say("click → count = " + count + " → update textContent");
+        });
+
+        // Show / hide (显示 / 隐藏)
+        const answer = document.getElementById("answer");
+        const reveal = document.getElementById("reveal");
+        reveal.addEventListener("click", function () {
+            answer.hidden = !answer.hidden;
+            reveal.textContent = answer.hidden ? "Show the answer" : "Hide the answer";
+            say("click → answer.hidden = " + answer.hidden);
+        });
+    </script>
+</body>
+</html>

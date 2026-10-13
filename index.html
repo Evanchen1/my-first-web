@@ -3,36 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Web</title>
-    <!-- Link the CSS file (样式文件) -->
+    <title>Front-end for Designers</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hello, !!!</h1>
+    <main class="container">
 
-    <!-- A link to another page (跳转到另一个页面的链接) -->
-    <a href="notes.html" class="link">Learning notes →</a>
+        <header class="hero">
+            <h1>Front-end for Designers</h1>
+            <p class="zh">设计师的前端入门</p>
+            <p class="lead">A UI designer's notes on learning front-end from zero: from the first HTML file to publishing and updating a real website. Every lesson has a demo you can play with.</p>
+            <p class="zh">一个 UI 设计师从零学前端的笔记：从第一个 HTML 文件，到发布和更新一个真正的网站。每节课都有可以动手玩的演示。</p>
+        </header>
 
-    <!-- A row of 3 cards (一排三张卡片) -->
-    <div class="card-row">
-        <div class="card">
-            <h2>HTML</h2>
-            <p>Content and structure</p>
+        <p class="section-label">Part 1 · Build a page / 做一个页面</p>
+        <!-- Each card is a link (<a>), so the whole card is clickable (整张卡片都是链接) -->
+        <div class="lesson-grid">
+            <a class="lesson-card" href="lessons/01-setup.html">
+                <span class="num">LESSON 01</span>
+                <h2>Set up your tools</h2>
+                <p class="zh">准备工具</p>
+                <div class="tags"><span class="tag">VS Code</span><span class="tag">Live Server</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/02-three-parts.html">
+                <span class="num">LESSON 02</span>
+                <h2>HTML, CSS &amp; JavaScript</h2>
+                <p class="zh">网页三件套</p>
+                <div class="tags"><span class="tag">Structure</span><span class="tag">Style</span><span class="tag">Behavior</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/03-class.html">
+                <span class="num">LESSON 03</span>
+                <h2>Class: linking HTML and CSS</h2>
+                <p class="zh">类名：连接 HTML 和 CSS</p>
+                <div class="tags"><span class="tag">class</span><span class="tag">Shared styles</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/04-figma-to-css.html">
+                <span class="num">LESSON 04</span>
+                <h2>From Figma to CSS</h2>
+                <p class="zh">从 Figma 属性到 CSS</p>
+                <div class="tags"><span class="tag">Fill</span><span class="tag">Stroke</span><span class="tag">Shadow</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/05-flexbox.html">
+                <span class="num">LESSON 05</span>
+                <h2>Flexbox = Auto Layout</h2>
+                <p class="zh">Flexbox 就是 Auto Layout</p>
+                <div class="tags"><span class="tag">Layout</span><span class="tag">gap</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/06-responsive.html">
+                <span class="num">LESSON 06</span>
+                <h2>Responsive design</h2>
+                <p class="zh">响应式设计</p>
+                <div class="tags"><span class="tag">@media</span><span class="tag">px / % / rem</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/07-links.html">
+                <span class="num">LESSON 07</span>
+                <h2>Links and multiple pages</h2>
+                <p class="zh">链接与多页面</p>
+                <div class="tags"><span class="tag">&lt;a href&gt;</span><span class="tag">Navigation</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/08-javascript.html">
+                <span class="num">LESSON 08</span>
+                <h2>JavaScript interactions</h2>
+                <p class="zh">JavaScript 交互</p>
+                <div class="tags"><span class="tag">click</span><span class="tag">classList</span></div>
+            </a>
         </div>
-        <div class="card">
-            <h2>CSS</h2>
-            <p>How it looks</p>
-        </div>
-        <div class="card">
-            <h2>JavaScript</h2>
-            <p>How it behaves</p>
-        </div>
-    </div>
 
-    <!-- A button that JavaScript controls (由 JS 控制的按钮) -->
-    <button id="theme-button">Change color</button>
+        <p class="section-label">Part 2 · Ship it / 发布上线</p>
+        <div class="lesson-grid">
+            <a class="lesson-card" href="lessons/09-publish.html">
+                <span class="num">LESSON 09</span>
+                <h2>Publishing your site</h2>
+                <p class="zh">发布网站</p>
+                <div class="tags"><span class="tag">Hosting</span><span class="tag">Free limits</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/10-git.html">
+                <span class="num">LESSON 10</span>
+                <h2>Git, GitHub &amp; updates</h2>
+                <p class="zh">Git、GitHub 与迭代更新</p>
+                <div class="tags"><span class="tag">commit</span><span class="tag">sync</span><span class="tag">Pages</span></div>
+            </a>
+        </div>
 
-    <!-- Link the JavaScript file (脚本文件) -->
-    <script src="script.js"></script>
+        <p class="section-label">Part 3 · DevTools for designers / 设计师的开发者工具</p>
+        <div class="lesson-grid">
+            <a class="lesson-card" href="lessons/11-inspect.html">
+                <span class="num">LESSON 11</span>
+                <h2>Inspect any element</h2>
+                <p class="zh">检查任意元素</p>
+                <div class="tags"><span class="tag">Elements</span><span class="tag">Box model</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/12-edit-styles.html">
+                <span class="num">LESSON 12</span>
+                <h2>Edit styles live</h2>
+                <p class="zh">实时修改样式</p>
+                <div class="tags"><span class="tag">Styles</span><span class="tag">:hov</span><span class="tag">Changes</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/13-device-mode.html">
+                <span class="num">LESSON 13</span>
+                <h2>Device mode &amp; screenshots</h2>
+                <p class="zh">设备模式与截图</p>
+                <div class="tags"><span class="tag">Responsive</span><span class="tag">Capture</span></div>
+            </a>
+            <a class="lesson-card" href="lessons/14-design-qa.html">
+                <span class="num">LESSON 14</span>
+                <h2>Design QA toolkit</h2>
+                <p class="zh">设计走查工具箱</p>
+                <div class="tags"><span class="tag">Color vision</span><span class="tag">Dark mode</span><span class="tag">Fonts</span></div>
+            </a>
+        </div>
+
+        <p class="footer">Built with plain HTML, CSS and JavaScript · Hosted on GitHub Pages</p>
+    </main>
 </body>
 </html>

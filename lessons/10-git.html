@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 · Git, GitHub &amp; updates</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .flow {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 280px;
+            padding: 14px;
+            border-radius: 12px;
+            background: white;
+            border: 1px solid var(--border);
+        }
+
+        .col h3 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .col .zh {
+            margin: -6px 0 0;
+            font-size: 12px;
+        }
+
+        .file {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: #f6f6f8;
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .file .badge {
+            font-family: var(--font);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--warning);
+        }
+
+        .commit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-size: 12px;
+        }
+
+        .commit-list li {
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: var(--accent-soft);
+        }
+
+        .commit-list li code {
+            background: none;
+            padding: 0;
+            margin-right: 6px;
+        }
+
+        .commit-list li.pending {
+            background: #fff7e6;
+        }
+
+        .empty {
+            font-size: 12px;
+            color: var(--text-zh);
+        }
+
+        .col input[type="text"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .col .btn {
+            justify-content: center;
+        }
+
+        .site-status {
+            padding: 10px;
+            border-radius: 8px;
+            background: #f6f6f8;
+            font-size: 13px;
+        }
+
+        .site-status b {
+            display: block;
+            font-size: 15px;
+        }
+
+        .builds {
+            margin-top: auto;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .builds.warn {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        @media (max-width: 760px) {
+            .flow {
+                grid-template-columns: 1fr;
+            }
+
+            .col {
+                min-height: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">10 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 10</p>
+        <h1 class="lesson-title">Git, GitHub &amp; updates</h1>
+        <p class="zh">Git、GitHub 与迭代更新</p>
+
+        <section class="block">
+            <h2>Git is not GitHub</h2>
+            <p class="zh">Git 不等于 GitHub</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th></th><th>What it is</th><th>Where it lives</th><th>Like</th></tr>
+                    <tr><td><b>Git</b></td><td>A tool that saves versions of your code<br><span class="zh">保存代码版本的工具</span></td><td>Your computer. No app icon, it runs from the terminal or VS Code<br><span class="zh">你的电脑上，没有图标</span></td><td>Figma version history</td></tr>
+                    <tr><td><b>GitHub</b></td><td>A website that stores Git projects online<br><span class="zh">在线存放 Git 项目的网站</span></td><td>github.com</td><td>Figma cloud files</td></tr>
+                    <tr><td><b>GitHub Pages</b></td><td>Turns a GitHub repository into a website<br><span class="zh">把仓库变成网站</span></td><td>you.github.io</td><td>Publishing a prototype</td></tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>First-time setup (done once)</h2>
+            <p class="zh">第一次设置（只做一次）</p>
+            <ol>
+                <li><code>git init</code>: turn the folder into a Git repository
+                    <span class="zh">把文件夹变成 Git 仓库</span></li>
+                <li>Add a <code>.gitignore</code> file to list files that should never be uploaded
+                    <span class="zh">添加 .gitignore，列出永远不上传的文件</span></li>
+                <li>Set your author name and email. In a public repository, the email is visible
+                    <span class="zh">设置作者名字和邮箱。公开仓库里邮箱会被看到</span></li>
+                <li>In VS Code Source Control, click <b>Publish Branch</b> and sign in to GitHub
+                    <span class="zh">在 VS Code 源代码管理里点 Publish Branch，登录 GitHub</span></li>
+                <li>Make the repository <b>public</b>: Settings → General → Danger Zone → Change visibility
+                    <span class="zh">把仓库改成公开</span></li>
+                <li>Settings → Pages → Deploy from a branch → <code>main</code> + <code>/ (root)</code> → Save
+                    <span class="zh">在 Pages 设置里选择分支并保存</span></li>
+            </ol>
+        </section>
+
+        <section class="block">
+            <h2>Every update after that</h2>
+            <p class="zh">之后每次更新</p>
+            <ol>
+                <li><b>Edit</b> and save your files. Check with Go Live.
+                    <span class="zh">修改并保存文件，用 Go Live 检查</span></li>
+                <li><b>Commit</b>: write a short note and save a version. Only on your computer.
+                    <span class="zh">提交：写一句说明，保存一个版本。只在你电脑上</span></li>
+                <li><b>Sync</b>: upload to GitHub. The site rebuilds in 1–2 minutes.
+                    <span class="zh">同步：上传到 GitHub，网站 1 到 2 分钟内重新生成</span></li>
+            </ol>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: edit → commit → sync</h2>
+            <p class="zh">动手试试：修改 → 提交 → 同步</p>
+            <div class="demo-body">
+                <div class="flow">
+                    <div class="col">
+                        <h3>1. Your files</h3>
+                        <p class="zh">你的文件</p>
+                        <div id="files"></div>
+                        <button class="btn ghost" id="edit">✏️ Edit a random file</button>
+                    </div>
+
+                    <div class="col">
+                        <h3>2. Git on your computer</h3>
+                        <p class="zh">你电脑上的 Git</p>
+                        <input type="text" id="message" placeholder="Commit message, e.g. Update title">
+                        <button class="btn" id="commit">Commit</button>
+                        <ul class="commit-list" id="local"></ul>
+                    </div>
+
+                    <div class="col">
+                        <h3>3. GitHub + live site</h3>
+                        <p class="zh">GitHub 和线上网站</p>
+                        <button class="btn" id="sync">⟳ Sync Changes</button>
+                        <div class="site-status" id="site"></div>
+                        <ul class="commit-list" id="remote"></ul>
+                        <div class="builds" id="builds"></div>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <p>Commit as often as you like, since it's free and local. Only <b>Sync</b> triggers a build, and GitHub Pages allows about <b>10 builds per hour</b> (soft limit), no matter how small the site is. So commit often, sync in batches.</p>
+                    <p class="zh">commit 可以随便提交，因为它是免费的、本地的。只有 Sync 会触发生成，GitHub Pages 每小时大约允许 10 次（软上限），和网站大小无关。所以多 commit，攒一批再同步。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>Your site is live 🎉</h2>
+            <p class="zh">你的网站上线了 🎉</p>
+            <p>This website is the result of the first 10 lessons. Next, Part 3 shows how designers use Chrome DevTools to inspect, tweak, and check any website, including your own.</p>
+            <p class="zh">这个网站就是前 10 节课的成果。接下来的第三部分，讲设计师怎么用 Chrome 开发者工具查看、调整和检查任何网站，包括你自己的。</p>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="09-publish.html"><small>← Previous</small>Publishing your site</a>
+            <a class="next" href="11-inspect.html"><small>Next lesson</small>Inspect any element →</a>
+        </nav>
+    </main>
+
+    <script>
+        const fileNames = ["index.html", "style.css", "script.js", "about.html"];
+        let changed = [];          // Files edited but not committed (改了但还没提交的文件)
+        let localCommits = [];     // Commits on your computer (你电脑上的提交)
+        let remoteCommits = [];    // Commits on GitHub (GitHub 上的提交)
+        let buildTimes = [];       // When each build started (每次生成的开始时间)
+        let building = false;
+        let liveVersion = "No version yet";
+
+        // A short fake ID, like Git's real ones (一个假的短 ID，像 Git 真实的那样)
+        function makeId() {
+            return Math.random().toString(16).slice(2, 9);
+        }
+
+        function render() {
+            // Column 1: files (第一栏：文件)
+            document.getElementById("files").innerHTML = fileNames.map(function (name) {
+                const badge = changed.includes(name) ? '<span class="badge">M modified</span>' : "";
+                return '<div class="file" style="margin-bottom:6px"><span>' + name + "</span>" + badge + "</div>";
+            }).join("");
+
+            // Column 2: local commits, newest first (第二栏：本地提交，最新在上)
+            const pending = localCommits.length - remoteCommits.length;
+            document.getElementById("local").innerHTML = localCommits.length === 0
+                ? '<li class="empty" style="background:none;padding:0">No commits yet</li>'
+                : localCommits.slice().reverse().map(function (c, i) {
+                    const notPushed = i < pending;
+                    return '<li class="' + (notPushed ? "pending" : "") + '"><code>' + c.id + "</code>" + c.message + (notPushed ? " · not synced" : "") + "</li>";
+                }).join("");
+
+            document.getElementById("commit").disabled = changed.length === 0;
+            document.getElementById("sync").disabled = pending === 0 || building;
+
+            // Column 3: GitHub and the live site (第三栏：GitHub 和线上网站)
+            document.getElementById("remote").innerHTML = remoteCommits.slice().reverse().map(function (c) {
+                return "<li><code>" + c.id + "</code>" + c.message + "</li>";
+            }).join("");
+
+            document.getElementById("site").innerHTML = building
+                ? "🟡 Building…<b>Please wait</b>"
+                : "✅ Live site shows<b>" + liveVersion + "</b>";
+
+            // Count builds in the last hour (统计最近一小时的生成次数)
+            const hourAgo = Date.now() - 60 * 60 * 1000;
+            buildTimes = buildTimes.filter(function (t) { return t > hourAgo; });
+            const builds = document.getElementById("builds");
+            builds.textContent = "Builds this hour: " + buildTimes.length + " / ~10";
+            builds.classList.toggle("warn", buildTimes.length >= 10);
+            if (buildTimes.length >= 10) {
+                builds.textContent += " · soft limit reached, slow down!";
+            }
+        }
+
+        document.getElementById("edit").addEventListener("click", function () {
+            const name = fileNames[Math.floor(Math.random() * fileNames.length)];
+            if (!changed.includes(name)) {
+                changed.push(name);
+            }
+            render();
+        });
+
+        document.getElementById("commit").addEventListener("click", function () {
+            const input = document.getElementById("message");
+            const message = input.value.trim() || "Update " + changed.join(", ");
+            localCommits.push({ id: makeId(), message: message });
+            changed = [];
+            input.value = "";
+            render();
+        });
+
+        document.getElementById("sync").addEventListener("click", function () {
+            // Upload every commit GitHub doesn't have yet (上传 GitHub 还没有的所有提交)
+            remoteCommits = localCommits.slice();
+            building = true;
+            buildTimes.push(Date.now());
+            render();
+
+            // Pretend the build takes 2 seconds (假装生成需要 2 秒)
+            setTimeout(function () {
+                building = false;
+                const latest = remoteCommits[remoteCommits.length - 1];
+                liveVersion = latest.id + " · " + latest.message;
+                render();
+            }, 2000);
+        });
+
+        render();
+    </script>
+</body>
+</html>

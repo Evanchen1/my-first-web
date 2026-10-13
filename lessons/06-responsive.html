@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06 · Responsive design</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .width-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            font-size: 14px;
+        }
+
+        .width-bar input {
+            flex: 1;
+            min-width: 160px;
+            accent-color: var(--accent);
+        }
+
+        .width-bar .value {
+            font-family: var(--mono);
+            color: var(--accent);
+            min-width: 60px;
+        }
+
+        .screen-wrap {
+            overflow: hidden;
+        }
+
+        /* The fake screen. "container-type" lets the cards react to ITS width */
+        /* 模拟屏幕。container-type 让卡片根据它的宽度变化 */
+        .screen {
+            container-type: inline-size;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 14px;
+            background: white;
+            border: 6px solid #2a2a35;
+            border-radius: 18px;
+        }
+
+        .screen .bar {
+            height: 10px;
+            width: 40%;
+            margin-bottom: 12px;
+            border-radius: 5px;
+            background: #e4e4ea;
+        }
+
+        .r-cards {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        .r-card {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Same idea as @media (max-width: 600px), but for this box (和 @media 同样的原理，只是针对这个盒子) */
+        @container (max-width: 600px) {
+            .r-cards {
+                flex-direction: column;
+            }
+        }
+
+        .mode {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        /* Units demo (单位演示) */
+        .units-stage {
+            padding: 16px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .units-stage p {
+            margin: 0 0 10px;
+        }
+
+        .unit-box {
+            height: 28px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            background: #a5a0ff;
+            color: white;
+            font-size: 12px;
+            font-family: var(--mono);
+            line-height: 28px;
+            padding-left: 8px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">06 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 06</p>
+        <h1 class="lesson-title">Responsive design</h1>
+        <p class="zh">响应式设计</p>
+
+        <section class="block">
+            <p>One web page has to fit every screen: phone, tablet, and desktop. In Figma you draw a frame for each breakpoint. In CSS you write <b>media queries</b> that switch styles at certain widths.</p>
+            <p class="zh">一个网页要适配所有屏幕：手机、平板、电脑。在 Figma 里你为每个断点画一个 Frame；在 CSS 里你写"媒体查询"，在特定宽度切换样式。</p>
+<pre><code>.cards {
+    display: flex;
+    flex-direction: row;       /* Desktop: side by side */
+}
+
+@media (max-width: 600px) {    /* Screens narrower than 600px */
+    .cards {
+        flex-direction: column; /* Phone: stacked */
+    }
+}</code></pre>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: resize the screen</h2>
+            <p class="zh">动手试试：拖动改变屏幕宽度</p>
+            <div class="demo-body">
+                <div class="width-bar">
+                    <span>Width</span>
+                    <input type="range" id="width" min="280" max="820" value="760">
+                    <span class="value" id="width-val">760px</span>
+                    <span class="mode" id="mode">Desktop layout</span>
+                </div>
+                <div class="screen-wrap">
+                    <div class="screen" id="screen">
+                        <div class="bar"></div>
+                        <div class="r-cards">
+                            <div class="r-card">Card 1</div>
+                            <div class="r-card">Card 2</div>
+                            <div class="r-card">Card 3</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tip">
+                    <p>Drag below <b>600px</b> and the cards stack, just like your phone. Real pages also have a viewport tag in <code>&lt;head&gt;</code>, which the <code>!</code> shortcut adds for you.</p>
+                    <p class="zh">拖到 600px 以下，卡片就会竖排，和手机上一样。真实页面的 &lt;head&gt; 里还需要一个 viewport 标签，用 ! 快捷键生成骨架时会自动加上。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>Units: px, %, and rem</h2>
+            <p class="zh">单位：px、% 和 rem</p>
+            <ul>
+                <li><code>px</code>: fixed pixels, same as in Figma
+                    <span class="zh">固定像素，和 Figma 一样</span></li>
+                <li><code>%</code>: relative to the parent element, so it stretches
+                    <span class="zh">相对于父元素，会跟着伸缩</span></li>
+                <li><code>rem</code>: relative to the base font size, usually 16px. If a user makes their text bigger, rem sizes grow too
+                    <span class="zh">相对于基础字号（通常是 16px）。用户把文字调大时，rem 尺寸也会一起变大</span></li>
+            </ul>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: change the base font size</h2>
+            <p class="zh">动手试试：修改基础字号</p>
+            <div class="demo-body">
+                <div class="width-bar">
+                    <span>Base font size</span>
+                    <input type="range" id="base" min="12" max="24" value="16">
+                    <span class="value" id="base-val">16px</span>
+                </div>
+                <div class="units-stage" id="units">
+                    <p style="font-size:16px">This text is <b>16px</b>. It never changes.</p>
+                    <p class="rem-text" style="font-size:1rem">This text is <b>1rem</b>. It follows the base size.</p>
+                    <div class="unit-box" style="width:160px">width: 160px</div>
+                    <div class="unit-box rem-box" style="width:10rem">width: 10rem</div>
+                    <div class="unit-box" style="width:50%">width: 50%</div>
+                </div>
+            </div>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="05-flexbox.html"><small>← Previous</small>Flexbox = Auto Layout</a>
+            <a class="next" href="07-links.html"><small>Next lesson</small>Links and multiple pages →</a>
+        </nav>
+    </main>
+
+    <script>
+        // Screen width demo (屏幕宽度演示)
+        const width = document.getElementById("width");
+        const screen = document.getElementById("screen");
+
+        function updateWidth() {
+            const w = Number(width.value);
+            screen.style.width = w + "px";
+            document.getElementById("width-val").textContent = w + "px";
+            // Measure the real inside width: clientWidth minus padding (14px × 2)
+            // 测量真实的内部宽度：clientWidth 减去内边距
+            const inside = screen.clientWidth - 28;
+            document.getElementById("mode").textContent = inside <= 600 ? "Phone layout" : "Desktop layout";
+        }
+
+        width.addEventListener("input", updateWidth);
+        updateWidth();
+
+        // rem demo: rem follows the root font size. Here we fake it with a scale.
+        // rem 演示：rem 跟随根字号，这里用比例来模拟
+        const base = document.getElementById("base");
+
+        base.addEventListener("input", function () {
+            const size = Number(base.value);
+            document.getElementById("base-val").textContent = size + "px";
+            document.querySelector(".rem-text").style.fontSize = size + "px";
+            document.querySelector(".rem-box").style.width = (size * 10) + "px";
+        });
+    </script>
+</body>
+</html>

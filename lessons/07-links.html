@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07 · Links and multiple pages</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .mini-browser {
+            max-width: 420px;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .mini-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: #f0f0f3;
+        }
+
+        .mini-bar button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .mini-bar button:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+
+        .address {
+            flex: 1;
+            padding: 5px 10px;
+            border-radius: 6px;
+            background: white;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tabs-row {
+            display: flex;
+            gap: 4px;
+            padding: 6px 10px 0;
+            background: #f0f0f3;
+            font-size: 11px;
+        }
+
+        .tabs-row span {
+            padding: 4px 10px;
+            border-radius: 6px 6px 0 0;
+            background: #e2e2e8;
+            color: var(--text-muted);
+        }
+
+        .tabs-row span.current {
+            background: #f0f0f3;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .mini-page {
+            min-height: 210px;
+            padding: 20px;
+        }
+
+        .mini-page h3 {
+            margin: 0 0 8px;
+        }
+
+        .mini-page p {
+            margin: 0 0 14px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .mini-page a {
+            display: inline-block;
+            margin: 0 12px 8px 0;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .last-code {
+            max-width: 420px;
+            margin: 14px auto 0;
+        }
+
+        .folder {
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.8;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">07 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 07</p>
+        <h1 class="lesson-title">Links and multiple pages</h1>
+        <p class="zh">链接与多页面</p>
+
+        <section class="block">
+            <p>To jump to another page, use the <code>&lt;a&gt;</code> tag. It works like a Figma prototype connection: <b>On click → Navigate to</b>.</p>
+            <p class="zh">跳转到另一个页面要用 &lt;a&gt; 标签。它就像 Figma 原型里的连线："点击时 → 跳转到"。</p>
+<pre><code>&lt;a href="about.html"&gt;About →&lt;/a&gt;</code></pre>
+            <ul style="margin-top:14px">
+                <li><code>a</code> stands for "anchor"
+                    <span class="zh">a 是 anchor（锚点）的缩写</span></li>
+                <li><code>href</code> says where to go
+                    <span class="zh">href 表示要跳转到哪里</span></li>
+                <li>The text between the tags is what people click
+                    <span class="zh">标签中间的文字就是用户点击的内容</span></li>
+            </ul>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Type</th><th>Example</th><th>Result</th></tr>
+                    <tr><td>Your own page</td><td><code>href="about.html"</code></td><td>Opens in the same tab<br><span class="zh">在当前标签页打开</span></td></tr>
+                    <tr><td>Another website</td><td><code>href="https://..." target="_blank"</code></td><td>Opens in a new tab<br><span class="zh">在新标签页打开</span></td></tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: click around a tiny website</h2>
+            <p class="zh">动手试试：在一个迷你网站里点一点</p>
+            <div class="demo-body">
+                <div class="mini-browser">
+                    <div class="tabs-row" id="tabs"></div>
+                    <div class="mini-bar">
+                        <button id="back" title="Back">←</button>
+                        <div class="address" id="address"></div>
+                    </div>
+                    <div class="mini-page" id="page"></div>
+                </div>
+                <div class="last-code">
+                    <pre><code id="last-code">Click a link to see its code.</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>Paths: how files find each other</h2>
+            <p class="zh">路径：文件之间怎么找到对方</p>
+            <p>This website keeps lessons in a <code>lessons</code> folder. So links need to know where they are starting from.</p>
+            <p class="zh">这个网站把课时放在 lessons 文件夹里，所以链接需要知道自己从哪里出发。</p>
+            <div class="folder">
+                my-first-web/<br>
+                ├── index.html &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← home page<br>
+                ├── style.css<br>
+                └── lessons/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;├── 06-responsive.html<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;└── 07-links.html &nbsp;← you are here
+            </div>
+            <ul style="margin-top:14px">
+                <li>Next lesson, same folder: <code>href="08-javascript.html"</code>
+                    <span class="zh">下一课在同一个文件夹，直接写文件名</span></li>
+                <li>Home page, one folder up: <code>href="../index.html"</code>. The <code>../</code> means "go up one folder".
+                    <span class="zh">首页在上一层文件夹，../ 的意思是"往上走一层"</span></li>
+            </ul>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="06-responsive.html"><small>← Previous</small>Responsive design</a>
+            <a class="next" href="08-javascript.html"><small>Next lesson</small>JavaScript interactions →</a>
+        </nav>
+    </main>
+
+    <script>
+        // The pages of the tiny website (迷你网站的页面)
+        const pages = {
+            "index.html": {
+                title: "Home",
+                text: "Welcome! This is the home page.",
+                links: [
+                    { href: "about.html", text: "About →" },
+                    { href: "work.html", text: "My work →" },
+                    { href: "https://developer.mozilla.org", text: "MDN ↗", external: true }
+                ]
+            },
+            "about.html": {
+                title: "About",
+                text: "A page about the designer.",
+                links: [{ href: "index.html", text: "← Back home" }]
+            },
+            "work.html": {
+                title: "My work",
+                text: "Some projects would go here.",
+                links: [
+                    { href: "index.html", text: "← Back home" },
+                    { href: "about.html", text: "About →" }
+                ]
+            }
+        };
+
+        let visited = ["index.html"];      // Pages visited in this tab (这个标签页访问过的页面)
+        let extraTabs = [];                 // New tabs opened by target="_blank" (新开的标签页)
+
+        function render() {
+            const current = visited[visited.length - 1];
+            const page = pages[current];
+
+            document.getElementById("address").textContent = "mysite.com/" + current;
+            document.getElementById("back").disabled = visited.length < 2;
+
+            let tabsHtml = '<span class="current">' + page.title + '</span>';
+            extraTabs.forEach(function (t) { tabsHtml += "<span>" + t + "</span>"; });
+            document.getElementById("tabs").innerHTML = tabsHtml;
+
+            let html = "<h3>" + page.title + "</h3><p>" + page.text + "</p>";
+            page.links.forEach(function (link, i) {
+                html += '<a data-i="' + i + '">' + link.text + "</a>";
+            });
+            document.getElementById("page").innerHTML = html;
+        }
+
+        document.getElementById("page").addEventListener("click", function (event) {
+            const a = event.target.closest("a");
+            if (!a) return;
+            const current = visited[visited.length - 1];
+            const link = pages[current].links[a.dataset.i];
+
+            if (link.external) {
+                // target="_blank": a new tab opens, this page stays (新标签页打开，当前页不变)
+                extraTabs.push("MDN");
+                document.getElementById("last-code").textContent =
+                    '<a href="' + link.href + '" target="_blank">' + link.text + '</a>\n\n→ Opened in a NEW tab. Look at the tab row.';
+            } else {
+                visited.push(link.href);
+                document.getElementById("last-code").textContent =
+                    '<a href="' + link.href + '">' + link.text + '</a>\n\n→ Same tab, now showing ' + link.href;
+            }
+            render();
+        });
+
+        document.getElementById("back").addEventListener("click", function () {
+            visited.pop();
+            render();
+        });
+
+        render();
+    </script>
+</body>
+</html>

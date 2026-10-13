@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 · Edit styles live</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- The demo button's CSS is written here by JavaScript (演示按钮的 CSS 由 JS 写在这里) -->
+    <style id="live-css"></style>
+    <style>
+        .styles-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .styles-layout > * {
+            min-width: 0;
+        }
+
+        .stage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+
+        .cta {
+            border: none;
+            cursor: pointer;
+            font-family: var(--font);
+            font-weight: 600;
+            transition: all 0.15s;
+        }
+
+        /* Styles panel look (样式面板的外观) */
+        .styles-panel {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            font-family: var(--mono);
+            font-size: 12px;
+            overflow: hidden;
+        }
+
+        .sp-bar {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            padding: 6px 10px;
+            background: #f1f3f4;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sp-bar button {
+            padding: 2px 8px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            background: none;
+            font-family: var(--mono);
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .sp-bar button.on {
+            background: white;
+            border-color: var(--border);
+        }
+
+        .sp-extra {
+            display: none;
+            padding: 8px 10px;
+            background: #fafafa;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sp-extra.open {
+            display: block;
+        }
+
+        .sp-extra label {
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .sp-extra input[type="text"] {
+            width: 100%;
+            padding: 4px 6px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .rule {
+            padding: 8px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .rule.inactive {
+            opacity: 0.45;
+        }
+
+        .selector {
+            color: #881280;
+        }
+
+        .decl {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 1px 0 1px 14px;
+        }
+
+        .decl input[type="checkbox"] {
+            margin: 0 4px 0 -16px;
+            transform: scale(0.85);
+        }
+
+        .decl .prop {
+            color: #c80000;
+        }
+
+        .decl.off .prop,
+        .decl.off .val {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .decl .val {
+            flex: 1;
+            min-width: 0;
+            padding: 0 2px;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            background: none;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: #1a1aa6;
+        }
+
+        .decl .val:hover {
+            border-color: #ddd;
+        }
+
+        .decl .val:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+
+        .decl .val.changed {
+            background: #e6f4ea;
+        }
+
+        .swatch {
+            width: 14px;
+            height: 14px;
+            padding: 0;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .swatch::-webkit-color-swatch-wrapper { padding: 0; }
+        .swatch::-webkit-color-swatch { border: none; }
+
+        .changes {
+            margin-top: 16px;
+        }
+
+        .changes-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .changes pre .del { color: #f87171; }
+        .changes pre .add { color: #86efac; }
+
+        @media (max-width: 760px) {
+            .styles-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">12 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 12 · PART 3</p>
+        <h1 class="lesson-title">Edit styles live</h1>
+        <p class="zh">实时修改样式</p>
+
+        <section class="block">
+            <p>In the <b>Styles</b> pane you can change any CSS and see the result instantly. It's the fastest way to try "what if the padding were 4px bigger?" on a real page, without asking a developer.</p>
+            <p class="zh">在 Styles 面板里，你可以修改任何 CSS 并立刻看到效果。想在真实页面上试试"内边距再大 4px 会怎样"，这是最快的方法，不用麻烦开发。</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>What you want</th><th>How</th></tr>
+                    <tr><td>Change a value<br><span class="zh">改数值</span></td><td>Click the value and type. Use <b>↑ / ↓</b> to step by 1, <b>Shift + ↑ / ↓</b> by 10</td></tr>
+                    <tr><td>Turn a property off<br><span class="zh">关掉某个属性</span></td><td>Hover the line and uncheck its checkbox</td></tr>
+                    <tr><td>Pick a color<br><span class="zh">选颜色</span></td><td>Click the small color square. The picker has an <b>eyedropper</b> and shows the <b>contrast ratio</b> for text</td></tr>
+                    <tr><td>See hover or focus styles<br><span class="zh">查看悬停、聚焦样式</span></td><td>Click <code>:hov</code> and check <code>:hover</code>, <code>:focus</code>, etc.</td></tr>
+                    <tr><td>Try a class<br><span class="zh">试加一个类名</span></td><td>Click <code>.cls</code> and type a class name</td></tr>
+                    <tr><td>See everything you changed<br><span class="zh">查看所有改动</span></td><td><code>Cmd + Shift + P</code> → type <b>Show Changes</b></td></tr>
+                </table>
+            </div>
+            <div class="tip">
+                <p>Edits only live in your browser. <b>Refreshing the page erases them</b>, so copy your changes before you reload. Right-click a rule → <b>Copy all declarations</b> is handy for sending to developers.</p>
+                <p class="zh">修改只存在于你的浏览器里，刷新页面就会消失，所以刷新前先复制。右键规则 → Copy all declarations，很方便发给开发。</p>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: a simulated Styles pane</h2>
+            <p class="zh">动手试试：一个模拟的 Styles 面板</p>
+            <div class="demo-body">
+                <div class="styles-layout">
+                    <div>
+                        <div class="preview stage">
+                            <button class="cta" id="cta">Get started</button>
+                        </div>
+                        <p class="zh" style="margin:8px 0 0">Click a value on the right and type, or use ↑ / ↓ keys.<br>点右边的数值直接输入，或者用 ↑ / ↓ 键。</p>
+                    </div>
+
+                    <div class="styles-panel">
+                        <div class="sp-bar">
+                            <span style="flex:1;font-family:var(--font);font-weight:600">Styles</span>
+                            <button id="hov-btn">:hov</button>
+                            <button id="cls-btn">.cls</button>
+                        </div>
+                        <div class="sp-extra" id="hov-panel">
+                            Force state:
+                            <label><input type="checkbox" id="force-hover"> :hover</label>
+                        </div>
+                        <div class="sp-extra" id="cls-panel">
+                            <input type="text" id="cls-input" placeholder="Add a class, try: large">
+                        </div>
+                        <div id="rules"></div>
+                    </div>
+                </div>
+
+                <div class="changes">
+                    <div class="changes-head">
+                        <span>Changes</span>
+                        <button class="btn ghost" id="reset" style="padding:4px 10px;font-size:12px">Reset (like a refresh)</button>
+                    </div>
+                    <pre><code id="changes-out"></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="11-inspect.html"><small>← Previous</small>Inspect any element</a>
+            <a class="next" href="13-device-mode.html"><small>Next lesson</small>Device mode &amp; screenshots →</a>
+        </nav>
+    </main>
+
+    <script>
+        // The CSS rules shown in the panel (面板里显示的 CSS 规则)
+        const original = [
+            {
+                selector: ".cta",
+                decls: [
+                    ["background", "#4f46e5"],
+                    ["color", "#ffffff"],
+                    ["padding", "12px 24px"],
+                    ["border-radius", "8px"],
+                    ["font-size", "15px"],
+                    ["box-shadow", "0 4px 12px rgba(79, 70, 229, 0.3)"]
+                ]
+            },
+            {
+                selector: ".cta:hover",
+                decls: [
+                    ["background", "#4338ca"],
+                    ["transform", "translateY(-2px)"]
+                ]
+            },
+            {
+                selector: ".cta.large",
+                decls: [
+                    ["font-size", "18px"],
+                    ["padding", "16px 32px"]
+                ]
+            }
+        ];
+
+        let rules;          // Current values, with an "on" switch for each line (当前数值，每行有开关)
+
+        function reset() {
+            rules = original.map(function (rule) {
+                return {
+                    selector: rule.selector,
+                    decls: rule.decls.map(function (d) { return { prop: d[0], value: d[1], on: true }; })
+                };
+            });
+            document.getElementById("force-hover").checked = false;
+            document.getElementById("cls-input").value = "";
+            document.getElementById("cta").className = "cta";
+            renderPanel();
+            apply();
+        }
+
+        // Make text safe to put inside an HTML attribute (让文字可以安全地放进 HTML 属性里)
+        function esc(text) {
+            return text.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+        }
+
+        // Is a value a plain hex color? (是不是十六进制颜色)
+        function isHex(value) {
+            return /^#[0-9a-f]{6}$/i.test(value.trim());
+        }
+
+        function renderPanel() {
+            const button = document.getElementById("cta");
+            let html = "";
+            rules.forEach(function (rule, r) {
+                // A rule is "active" if it currently matches the button (规则是否正在生效)
+                let active = true;
+                if (rule.selector === ".cta:hover") active = document.getElementById("force-hover").checked;
+                if (rule.selector === ".cta.large") active = button.classList.contains("large");
+
+                html += '<div class="rule' + (active ? "" : " inactive") + '"><span class="selector">' + rule.selector + "</span> {";
+                rule.decls.forEach(function (d, i) {
+                    const swatch = isHex(d.value)
+                        ? '<input type="color" class="swatch" data-r="' + r + '" data-i="' + i + '" value="' + d.value + '">'
+                        : "";
+                    const changed = d.value !== original[r].decls[i][1];
+                    html += '<div class="decl' + (d.on ? "" : " off") + '">' +
+                        '<input type="checkbox" data-r="' + r + '" data-i="' + i + '"' + (d.on ? " checked" : "") + ">" +
+                        '<span class="prop">' + d.prop + "</span>:" + swatch +
+                        '<input class="val' + (changed ? " changed" : "") + '" data-r="' + r + '" data-i="' + i + '" value="' + esc(d.value) + '">;</div>';
+                });
+                html += "}</div>";
+            });
+            document.getElementById("rules").innerHTML = html;
+        }
+
+        // Write the current rules as real CSS (把当前规则写成真正的 CSS)
+        function apply() {
+            let css = "";
+            rules.forEach(function (rule) {
+                let selector = rule.selector;
+                // Forcing :hover = also apply the hover rule to a helper class (强制 :hover = 给辅助类名也套上悬停规则)
+                if (selector === ".cta:hover") selector = ".cta:hover, .cta.force-hover";
+                css += selector + " {";
+                rule.decls.forEach(function (d) {
+                    if (d.on) css += d.prop + ": " + d.value + ";";
+                });
+                css += "}\n";
+            });
+            document.getElementById("live-css").textContent = css;
+            renderChanges();
+        }
+
+        // List what changed, like the Changes tab (列出改动，就像 Changes 标签页)
+        function renderChanges() {
+            let out = "";
+            rules.forEach(function (rule, r) {
+                let lines = "";
+                rule.decls.forEach(function (d, i) {
+                    const old = original[r].decls[i][1];
+                    if (!d.on) {
+                        lines += '<span class="del">-   ' + d.prop + ": " + old + ";</span>\n";
+                    } else if (d.value !== old) {
+                        lines += '<span class="del">-   ' + d.prop + ": " + old + ";</span>\n";
+                        lines += '<span class="add">+   ' + d.prop + ": " + esc(d.value) + ";</span>\n";
+                    }
+                });
+                if (lines) out += "  " + rule.selector + " {\n" + lines + "  }\n";
+            });
+            document.getElementById("changes-out").innerHTML = out || "No changes yet. Edit something above.\n还没有改动，试着改点什么。";
+        }
+
+        const panel = document.getElementById("rules");
+
+        // Typing in a value (输入数值)
+        panel.addEventListener("input", function (event) {
+            const t = event.target;
+            if (!t.dataset.r) return;
+            const d = rules[t.dataset.r].decls[t.dataset.i];
+            if (t.type === "checkbox") return;
+            d.value = t.value;
+            apply();
+            if (t.type === "color") renderPanel();
+        });
+
+        // Checkbox on / off (勾选开关)
+        panel.addEventListener("change", function (event) {
+            const t = event.target;
+            if (t.type !== "checkbox") return;
+            rules[t.dataset.r].decls[t.dataset.i].on = t.checked;
+            renderPanel();
+            apply();
+        });
+
+        // ↑ / ↓ change the first number, Shift for steps of 10 (↑ / ↓ 修改第一个数字，按住 Shift 每次 10)
+        panel.addEventListener("keydown", function (event) {
+            const t = event.target;
+            if (!t.classList.contains("val")) return;
+            if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
+            const match = t.value.match(/-?\d+(\.\d+)?/);
+            if (!match) return;
+            event.preventDefault();
+            const step = (event.shiftKey ? 10 : 1) * (event.key === "ArrowUp" ? 1 : -1);
+            const next = Math.round((parseFloat(match[0]) + step) * 10) / 10;
+            t.value = t.value.replace(match[0], String(next));
+            rules[t.dataset.r].decls[t.dataset.i].value = t.value;
+            t.classList.toggle("changed", t.value !== original[t.dataset.r].decls[t.dataset.i][1]);
+            apply();
+        });
+
+        // Re-draw when you leave a field, to update highlights (离开输入框时重绘，更新高亮)
+        panel.addEventListener("focusout", renderPanel);
+
+        // :hov and .cls toggles (:hov 和 .cls 开关)
+        document.getElementById("hov-btn").addEventListener("click", function () {
+            this.classList.toggle("on", document.getElementById("hov-panel").classList.toggle("open"));
+        });
+        document.getElementById("cls-btn").addEventListener("click", function () {
+            this.classList.toggle("on", document.getElementById("cls-panel").classList.toggle("open"));
+        });
+
+        document.getElementById("force-hover").addEventListener("change", function () {
+            document.getElementById("cta").classList.toggle("force-hover", this.checked);
+            renderPanel();
+        });
+
+        document.getElementById("cls-input").addEventListener("input", function () {
+            const button = document.getElementById("cta");
+            const force = button.classList.contains("force-hover");
+            button.className = ("cta " + this.value.trim() + (force ? " force-hover" : "")).trim();
+            renderPanel();
+        });
+
+        document.getElementById("reset").addEventListener("click", reset);
+
+        reset();
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 · HTML, CSS &amp; JavaScript</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .layer-toggles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .layer-toggles label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .layer-toggles input:disabled + span {
+            opacity: 0.5;
+        }
+
+        .stage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 240px;
+        }
+
+        /* The demo card WITH CSS (加了 CSS 的卡片) */
+        .styled .demo-card {
+            width: 280px;
+            padding: 24px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            font-family: var(--font);
+            text-align: center;
+        }
+
+        .styled .demo-card h3 {
+            margin: 0 0 6px;
+            font-size: 20px;
+        }
+
+        .styled .demo-card p {
+            margin: 0 0 16px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .styled .demo-card button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 999px;
+            background: #ec4899;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Without CSS: browser defaults, like a raw wireframe (没有 CSS：浏览器默认样式) */
+        .stage:not(.styled) .demo-card {
+            font-family: "Times New Roman", serif;
+        }
+
+        .js-note {
+            min-height: 22px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">02 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 02</p>
+        <h1 class="lesson-title">HTML, CSS &amp; JavaScript</h1>
+        <p class="zh">网页三件套</p>
+
+        <section class="block">
+            <p>Every web page is made of three layers. Each one has its own job and usually its own file.</p>
+            <p class="zh">每个网页都由三层组成。每一层负责一件事，通常也各有一个文件。</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Layer</th><th>Job</th><th>Like in Figma</th><th>File</th></tr>
+                    <tr><td><b>HTML</b></td><td>Content and structure<br><span class="zh">内容和结构</span></td><td>Layers and text</td><td><code>index.html</code></td></tr>
+                    <tr><td><b>CSS</b></td><td>How it looks<br><span class="zh">外观</span></td><td>Fills, fonts, Auto Layout</td><td><code>style.css</code></td></tr>
+                    <tr><td><b>JavaScript</b></td><td>How it behaves<br><span class="zh">行为、交互</span></td><td>Prototype interactions</td><td><code>script.js</code></td></tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>Front-end vs back-end</h2>
+            <p class="zh">前端和后端</p>
+            <p><b>Front-end</b> is everything users see and touch in the browser. <b>Back-end</b> runs on a server and handles data like accounts, orders, and databases. Designers usually start with front-end.</p>
+            <p class="zh">前端是用户在浏览器里看到、点到的一切。后端运行在服务器上，处理账号、订单、数据库等数据。设计师通常从前端入手。</p>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: turn the layers on and off</h2>
+            <p class="zh">动手试试：打开和关闭每一层</p>
+            <div class="demo-body">
+                <div class="layer-toggles">
+                    <label><input type="checkbox" checked disabled><span>HTML (always needed)</span></label>
+                    <label><input type="checkbox" id="toggle-css" checked><span>CSS</span></label>
+                    <label><input type="checkbox" id="toggle-js" checked><span>JavaScript</span></label>
+                </div>
+
+                <div class="preview">
+                    <div class="stage styled" id="stage">
+                        <div class="demo-card">
+                            <h3>Daily UI #001</h3>
+                            <p>A sign-up card for a music app.</p>
+                            <button id="like">♡ Like</button>
+                        </div>
+                    </div>
+                    <p class="js-note" id="js-note"></p>
+                </div>
+
+                <div class="tip">
+                    <p>Without CSS, the page still works, but it looks like a raw wireframe. Without JavaScript, it looks fine, but the button does nothing.</p>
+                    <p class="zh">没有 CSS，页面还能用，但像一个原始线框图。没有 JavaScript，页面好看，但按钮点了没反应。</p>
+                </div>
+            </div>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="01-setup.html"><small>← Previous</small>Set up your tools</a>
+            <a class="next" href="03-class.html"><small>Next lesson</small>Class: linking HTML and CSS →</a>
+        </nav>
+    </main>
+
+    <script>
+        const stage = document.getElementById("stage");
+        const likeButton = document.getElementById("like");
+        const jsToggle = document.getElementById("toggle-js");
+        const note = document.getElementById("js-note");
+        let likes = 0;
+
+        // CSS layer on/off = add or remove the "styled" class (CSS 层开关 = 加或去掉 styled 类名)
+        document.getElementById("toggle-css").addEventListener("change", function () {
+            stage.classList.toggle("styled", this.checked);
+        });
+
+        // The button only reacts when the JS layer is on (只有 JS 层打开时按钮才有反应)
+        likeButton.addEventListener("click", function () {
+            if (!jsToggle.checked) {
+                note.textContent = "Nothing happens. There's no JavaScript to listen for the click.";
+                return;
+            }
+            likes = likes + 1;
+            likeButton.textContent = "♥ Liked " + likes;
+            note.textContent = "JavaScript heard the click and changed the text.";
+        });
+    </script>
+</body>
+</html>

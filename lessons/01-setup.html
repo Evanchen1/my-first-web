@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 · Set up your tools</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Styles only for this lesson's demo (只用于本课演示的样式) */
+        .editor-demo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .pane-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .editor-demo textarea {
+            width: 100%;
+            height: 220px;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: var(--code-bg);
+            color: var(--code-text);
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        .browser {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .browser-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 10px;
+            background: #f0f0f3;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .browser-bar i {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #d4d4da;
+        }
+
+        .browser iframe {
+            display: block;
+            width: 100%;
+            height: 182px;
+            border: none;
+        }
+
+        .demo-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+            font-size: 14px;
+        }
+
+        .status {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .status.stale {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        @media (max-width: 680px) {
+            .editor-demo {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">01 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 01</p>
+        <h1 class="lesson-title">Set up your tools</h1>
+        <p class="zh">准备工具</p>
+
+        <section class="block">
+            <h2>What you need</h2>
+            <p class="zh">你需要什么</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Tool</th><th>What it does</th><th>Like in design</th></tr>
+                    <tr><td><b>VS Code</b></td><td>Where you write code<br><span class="zh">写代码的地方</span></td><td>Your Figma canvas</td></tr>
+                    <tr><td><b>Live Server</b></td><td>Shows your page in the browser and refreshes on save<br><span class="zh">在浏览器里显示页面，保存后自动刷新</span></td><td>Present mode, live</td></tr>
+                    <tr><td><b>Node.js + npm</b></td><td>Runs tools like React and Vite. Not needed yet<br><span class="zh">运行 React、Vite 等工具，现在还用不到</span></td><td>Plugins</td></tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>Your first page in 5 steps</h2>
+            <p class="zh">5 步做出第一个网页</p>
+            <ol>
+                <li>Create a folder, then open it in VS Code with <b>Open…</b>
+                    <span class="zh">新建一个文件夹，在 VS Code 里用 Open… 打开</span></li>
+                <li>Create a file named <code>index.html</code>. The <code>.html</code> ending matters.
+                    <span class="zh">新建 index.html 文件，.html 后缀很重要</span></li>
+                <li>Type <code>!</code>, wait for the popup, and press <b>Tab</b> to get the HTML skeleton.
+                    <span class="zh">输入 !，等弹出菜单出现后按 Tab，生成 HTML 骨架</span></li>
+                <li>Write <code>&lt;h1&gt;Hello&lt;/h1&gt;</code> inside <code>&lt;body&gt;</code>.
+                    <span class="zh">在 &lt;body&gt; 里写一个标题</span></li>
+                <li>Click <b>Go Live</b> in the bottom-right corner. It turns into <b>Port : 5500</b> while running.
+                    <span class="zh">点右下角的 Go Live，运行时会变成 Port : 5500</span></li>
+            </ol>
+            <div class="tip">
+                <p><b>127.0.0.1:5500</b> means "this computer, door number 5500". Only you can see it until you publish.</p>
+                <p class="zh">127.0.0.1:5500 的意思是"本机的 5500 号门"。发布之前只有你自己能看到。</p>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: the edit → save → see loop</h2>
+            <p class="zh">动手试试："修改 → 保存 → 查看"循环</p>
+            <div class="demo-body">
+                <p>Edit the code, then press <b>Save</b>. Turn Live Server off to feel the difference.</p>
+                <p class="zh">修改代码，然后点 Save。关掉 Live Server，感受一下区别。</p>
+
+                <div class="editor-demo">
+                    <div>
+                        <div class="pane-title"><span>index.html — VS Code</span></div>
+                        <textarea id="code" spellcheck="false">&lt;h1&gt;Hello, I'm a designer&lt;/h1&gt;
+&lt;p&gt;Change this text, then save.&lt;/p&gt;</textarea>
+                    </div>
+                    <div>
+                        <div class="pane-title"><span>Browser</span><span id="status" class="status">Up to date</span></div>
+                        <div class="browser">
+                            <div class="browser-bar"><i></i><i></i><i></i>&nbsp;127.0.0.1:5500/index.html</div>
+                            <iframe id="preview" title="Preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-actions">
+                    <button class="btn" id="save">Save (Cmd + S)</button>
+                    <button class="btn ghost" id="refresh">Refresh browser</button>
+                    <label><input type="checkbox" id="live" checked> Live Server on</label>
+                </div>
+            </div>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="../index.html"><small>Back to</small>All lessons</a>
+            <a class="next" href="02-three-parts.html"><small>Next lesson</small>HTML, CSS &amp; JavaScript →</a>
+        </nav>
+    </main>
+
+    <script>
+        const code = document.getElementById("code");
+        const preview = document.getElementById("preview");
+        const statusText = document.getElementById("status");
+        const live = document.getElementById("live");
+
+        let savedCode = code.value;       // What's saved in the "file" (文件里保存的内容)
+
+        // Show the saved code in the fake browser (在模拟浏览器里显示已保存的代码)
+        function showInBrowser() {
+            preview.srcdoc = '<div style="font-family:sans-serif">' + savedCode + '</div>';
+            statusText.textContent = "Up to date";
+            statusText.classList.remove("stale");
+        }
+
+        function save() {
+            savedCode = code.value;
+            if (live.checked) {
+                showInBrowser();          // Live Server refreshes for you (Live Server 自动刷新)
+            } else {
+                statusText.textContent = "Saved, but the browser shows the old version";
+                statusText.classList.add("stale");
+            }
+        }
+
+        document.getElementById("save").addEventListener("click", save);
+        document.getElementById("refresh").addEventListener("click", showInBrowser);
+
+        // Cmd + S / Ctrl + S inside the editor (在编辑器里按快捷键保存)
+        code.addEventListener("keydown", function (event) {
+            if ((event.metaKey || event.ctrlKey) && event.key === "s") {
+                event.preventDefault();
+                save();
+            }
+        });
+
+        showInBrowser();
+    </script>
+</body>
+</html>

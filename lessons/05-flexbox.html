@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05 · Flexbox = Auto Layout</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        #frame {
+            display: flex;
+            overflow: auto;              /* Scroll if items don't fit (放不下时可以滚动) */
+            min-height: 240px;
+            padding: 12px;
+            background: rgba(79, 70, 229, 0.06);
+            border: 1px dashed var(--accent);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .flex-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 56px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .flex-item:nth-child(2) { min-height: 70px; background: #7c73ff; }
+        .flex-item:nth-child(3) { min-height: 40px; background: #a5a0ff; }
+        .flex-item:nth-child(4) { background: #6366f1; }
+        .flex-item:nth-child(5) { background: #8b85ff; }
+
+        .flex-item.fill {
+            flex: 1;
+            outline: 2px solid #fbbf24;
+            outline-offset: 2px;
+        }
+
+        .frame-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">05 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 05</p>
+        <h1 class="lesson-title">Flexbox = Auto Layout</h1>
+        <p class="zh">Flexbox 就是 Auto Layout</p>
+
+        <section class="block">
+            <p>Flexbox is the CSS version of Auto Layout. It's the layout tool you'll use most.</p>
+            <p class="zh">Flexbox 就是 CSS 版的 Auto Layout，是你最常用的布局工具。</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Auto Layout</th><th>Flexbox</th></tr>
+                    <tr><td>Turn on Auto Layout</td><td><code>display: flex</code></td></tr>
+                    <tr><td>Direction (→ / ↓)</td><td><code>flex-direction: row / column</code></td></tr>
+                    <tr><td>Alignment, along the direction</td><td><code>justify-content</code></td></tr>
+                    <tr><td>Alignment, across the direction</td><td><code>align-items</code></td></tr>
+                    <tr><td>Spacing between items</td><td><code>gap</code></td></tr>
+                    <tr><td>Space between (Auto)</td><td><code>justify-content: space-between</code></td></tr>
+                    <tr><td>Fill container</td><td><code>flex: 1</code> (on the child)</td></tr>
+                    <tr><td>Wrap</td><td><code>flex-wrap: wrap</code></td></tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: an Auto Layout panel that writes CSS</h2>
+            <p class="zh">动手试试：一个会写 CSS 的 Auto Layout 面板</p>
+            <div class="demo-body">
+                <div class="split">
+                    <div class="controls">
+                        <div class="control">
+                            <span class="label">flex-direction</span>
+                            <div class="seg" data-prop="flexDirection">
+                                <button data-v="row" class="on">row →</button>
+                                <button data-v="column">column ↓</button>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <span class="label">justify-content</span>
+                            <div class="seg" data-prop="justifyContent">
+                                <button data-v="flex-start" class="on">start</button>
+                                <button data-v="center">center</button>
+                                <button data-v="flex-end">end</button>
+                                <button data-v="space-between">between</button>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <span class="label">align-items</span>
+                            <div class="seg" data-prop="alignItems">
+                                <button data-v="flex-start" class="on">start</button>
+                                <button data-v="center">center</button>
+                                <button data-v="flex-end">end</button>
+                                <button data-v="stretch">stretch</button>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <label>gap <span class="value" id="gap-val">8px</span></label>
+                            <input type="range" id="gap" min="0" max="40" value="8">
+                        </div>
+                        <div class="control">
+                            <span class="label">flex-wrap</span>
+                            <div class="seg" data-prop="flexWrap">
+                                <button data-v="nowrap" class="on">nowrap</button>
+                                <button data-v="wrap">wrap</button>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <label><span><input type="checkbox" id="fill"> Item 2: Fill container</span></label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="frame-label">Frame (the parent)</div>
+                        <div id="frame">
+                            <div class="flex-item">1</div>
+                            <div class="flex-item">2</div>
+                            <div class="flex-item">3</div>
+                            <div class="flex-item">4</div>
+                            <div class="flex-item">5</div>
+                        </div>
+                        <pre style="margin-top:16px"><code id="css-out"></code></pre>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <p>Practice more with the free game <a href="https://flexboxfroggy.com" target="_blank">Flexbox Froggy ↗</a>. It has 24 levels.</p>
+                    <p class="zh">可以用免费小游戏 Flexbox Froggy 多练习，一共 24 关。</p>
+                </div>
+            </div>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="04-figma-to-css.html"><small>← Previous</small>From Figma to CSS</a>
+            <a class="next" href="06-responsive.html"><small>Next lesson</small>Responsive design →</a>
+        </nav>
+    </main>
+
+    <script>
+        const frame = document.getElementById("frame");
+        const gap = document.getElementById("gap");
+        const fill = document.getElementById("fill");
+        const item2 = frame.children[1];
+
+        // Current settings (当前设置)
+        const settings = {
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            flexWrap: "nowrap"
+        };
+
+        // CSS names use dashes, JS names use camelCase (CSS 用短横线，JS 用驼峰命名)
+        const cssName = {
+            flexDirection: "flex-direction",
+            justifyContent: "justify-content",
+            alignItems: "align-items",
+            flexWrap: "flex-wrap"
+        };
+
+        function update() {
+            for (const prop in settings) {
+                frame.style[prop] = settings[prop];
+            }
+            frame.style.gap = gap.value + "px";
+            document.getElementById("gap-val").textContent = gap.value + "px";
+            item2.classList.toggle("fill", fill.checked);
+
+            let css = ".frame {\n    display: flex;\n";
+            for (const prop in settings) {
+                css += "    " + cssName[prop] + ": " + settings[prop] + ";\n";
+            }
+            css += "    gap: " + gap.value + "px;\n}";
+            if (fill.checked) {
+                css += "\n\n.item-2 {\n    flex: 1;  /* Fill container */\n}";
+            }
+            document.getElementById("css-out").textContent = css;
+        }
+
+        // Each segmented control changes one property (每组按钮控制一个属性)
+        document.querySelectorAll(".seg").forEach(function (group) {
+            group.addEventListener("click", function (event) {
+                const button = event.target.closest("button");
+                if (!button) return;
+                group.querySelectorAll("button").forEach(function (b) { b.classList.remove("on"); });
+                button.classList.add("on");
+                settings[group.dataset.prop] = button.dataset.v;
+                update();
+            });
+        });
+
+        gap.addEventListener("input", update);
+        fill.addEventListener("change", update);
+        update();
+    </script>
+</body>
+</html>

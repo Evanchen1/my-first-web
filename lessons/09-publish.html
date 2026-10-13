@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09 · Publishing your site</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .calc-result {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .usage-total {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .usage-total b {
+            font-size: 28px;
+            color: var(--text);
+        }
+
+        .meter-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .meter-label span:last-child {
+            font-family: var(--mono);
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .meter {
+            height: 12px;
+            border-radius: 999px;
+            background: #ececf1;
+            overflow: hidden;
+        }
+
+        .meter i {
+            display: block;
+            height: 100%;
+            width: 0;
+            border-radius: 999px;
+            background: var(--success);
+            transition: width 0.2s, background 0.2s;
+        }
+
+        .meter i.warn { background: var(--warning); }
+        .meter i.over { background: var(--danger); }
+
+        .local-vs-online {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 12px;
+            align-items: center;
+            text-align: center;
+        }
+
+        .place {
+            padding: 16px;
+            border-radius: 12px;
+            background: white;
+            border: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .place b {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .place code {
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        .arrow {
+            font-size: 22px;
+            color: var(--accent);
+        }
+
+        @media (max-width: 680px) {
+            .local-vs-online {
+                grid-template-columns: 1fr;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">09 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 09</p>
+        <h1 class="lesson-title">Publishing your site</h1>
+        <p class="zh">发布网站</p>
+
+        <section class="block">
+            <h2>From your computer to the internet</h2>
+            <p class="zh">从你的电脑到互联网</p>
+            <div class="local-vs-online">
+                <div class="place"><b>💻 Local</b>Only you can see it<br><span class="zh">只有你能看到</span><code>127.0.0.1:5500</code></div>
+                <div class="arrow">→</div>
+                <div class="place"><b>🌍 Online</b>Anyone with the link<br><span class="zh">有链接的人都能看到</span><code>you.github.io/site</code></div>
+            </div>
+            <p style="margin-top:16px">Publishing means uploading your folder to a server that's always online. A site with only HTML, CSS, JS, and images is called a <b>static site</b>. Static sites are easy, and usually free, to host.</p>
+            <p class="zh">发布就是把文件夹上传到一台一直在线的服务器。只有 HTML、CSS、JS 和图片的网站叫"静态网站"，托管起来很简单，通常也免费。</p>
+        </section>
+
+        <section class="block">
+            <h2>Free hosting options</h2>
+            <p class="zh">免费托管方式</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Service</th><th>How</th><th>Free traffic / month</th><th>Watch out</th></tr>
+                    <tr><td><b>Netlify Drop</b></td><td>Drag a folder<br><span class="zh">拖拽文件夹</span></td><td>300 credits, about 15 GB at most</td><td>Each publish costs 15 credits. Site pauses at the limit<br><span class="zh">每次发布扣 15 积分，用完网站暂停</span></td></tr>
+                    <tr><td><b>GitHub Pages</b></td><td>Git push<br><span class="zh">用 Git 推送</span></td><td>About 100 GB (soft)</td><td>Code must be public on the free plan<br><span class="zh">免费版代码必须公开</span></td></tr>
+                    <tr><td><b>Vercel</b></td><td>Connect GitHub</td><td>About 100 GB</td><td>Free plan is non-commercial only<br><span class="zh">免费版仅限非商业用途</span></td></tr>
+                </table>
+            </div>
+            <p style="margin-top:12px;font-size:13px;color:var(--text-muted)">Numbers as of October 2026. They change, so check the official pages: <a href="https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/credit-based-pricing-plans/" target="_blank">Netlify</a> · <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits" target="_blank">GitHub Pages</a> · <a href="https://vercel.com/docs/plans/hobby" target="_blank">Vercel</a></p>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: will my site fit the free plan?</h2>
+            <p class="zh">动手试试：我的网站在免费额度内吗？</p>
+            <div class="demo-body">
+                <div class="split">
+                    <div class="controls">
+                        <div class="control">
+                            <label>Page size <span class="value" id="size-val"></span></label>
+                            <input type="range" id="size" min="10" max="5000" step="10" value="600">
+                        </div>
+                        <div class="control">
+                            <label>Visits per month <span class="value" id="visits-val"></span></label>
+                            <input type="range" id="visits" min="0" max="200000" step="500" value="10000">
+                        </div>
+                        <div class="control">
+                            <label>Publishes per month <span class="value" id="deploys-val"></span></label>
+                            <input type="range" id="deploys" min="0" max="30" value="4">
+                        </div>
+                        <p class="zh" style="margin:0">Tip: images are most of the size. Compress them or use WebP.<br>提示：体积主要来自图片，可以压缩或改用 WebP。</p>
+                    </div>
+
+                    <div class="calc-result">
+                        <div class="usage-total">Traffic this month<br><b id="total">0 GB</b></div>
+                        <div>
+                            <div class="meter-label"><span>Netlify (300 credits)</span><span id="netlify-text"></span></div>
+                            <div class="meter"><i id="netlify-bar"></i></div>
+                        </div>
+                        <div>
+                            <div class="meter-label"><span>GitHub Pages (~100 GB)</span><span id="github-text"></span></div>
+                            <div class="meter"><i id="github-bar"></i></div>
+                        </div>
+                        <div>
+                            <div class="meter-label"><span>Vercel Hobby (~100 GB)</span><span id="vercel-text"></span></div>
+                            <div class="meter"><i id="vercel-bar"></i></div>
+                        </div>
+                        <p class="zh" style="margin:0">A rough estimate. Browsers cache files, so return visits use less.<br>粗略估算。浏览器会缓存文件，所以回访用得更少。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>Before you publish</h2>
+            <p class="zh">发布之前</p>
+            <ul>
+                <li>Only publish images and content you have the right to share. Company work usually has its own release process.
+                    <span class="zh">只发布你有权公开的图片和内容。公司项目通常有自己的发布流程。</span></li>
+                <li>Use <code>.gitignore</code> to keep private files out of a public repository.
+                    <span class="zh">用 .gitignore 把私密文件排除在公开仓库之外。</span></li>
+                <li>A custom domain like <code>mysite.com</code> is optional, about $10–15 a year. HTTPS is added for free.
+                    <span class="zh">自定义域名是可选的，每年约 10 到 15 美元。HTTPS 会免费自动加上。</span></li>
+            </ul>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="08-javascript.html"><small>← Previous</small>JavaScript interactions</a>
+            <a class="next" href="10-git.html"><small>Next lesson</small>Git, GitHub &amp; updates →</a>
+        </nav>
+    </main>
+
+    <script>
+        const size = document.getElementById("size");
+        const visits = document.getElementById("visits");
+        const deploys = document.getElementById("deploys");
+
+        // Fill a meter bar and color it by how full it is (填充进度条，按占比变色)
+        function setMeter(name, used, limit, label) {
+            const percent = Math.min(100, (used / limit) * 100);
+            const bar = document.getElementById(name + "-bar");
+            bar.style.width = percent + "%";
+            bar.classList.toggle("warn", used / limit >= 0.7 && used <= limit);
+            bar.classList.toggle("over", used > limit);
+            document.getElementById(name + "-text").textContent = label + (used > limit ? "  over!" : "");
+        }
+
+        function update() {
+            const kb = Number(size.value);
+            const v = Number(visits.value);
+            const d = Number(deploys.value);
+
+            // KB → GB: divide by 1024 twice (KB 换算 GB：除以两次 1024)
+            const gb = (kb * v) / 1024 / 1024;
+
+            document.getElementById("size-val").textContent = kb >= 1000 ? (kb / 1000).toFixed(1) + " MB" : kb + " KB";
+            document.getElementById("visits-val").textContent = v.toLocaleString();
+            document.getElementById("deploys-val").textContent = d;
+            document.getElementById("total").textContent = gb.toFixed(2) + " GB";
+
+            // Netlify: 20 credits per GB + 15 credits per publish (Netlify：每 GB 20 积分 + 每次发布 15 积分)
+            const credits = gb * 20 + d * 15;
+            setMeter("netlify", credits, 300, Math.round(credits) + " / 300 credits");
+            setMeter("github", gb, 100, gb.toFixed(1) + " / 100 GB");
+            setMeter("vercel", gb, 100, gb.toFixed(1) + " / 100 GB");
+        }
+
+        [size, visits, deploys].forEach(function (input) {
+            input.addEventListener("input", update);
+        });
+        update();
+    </script>
+</body>
+</html>

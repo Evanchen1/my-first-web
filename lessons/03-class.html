@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 · Class: linking HTML and CSS</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* The demo's ".card" rule reads its values from variables the sliders change */
+        /* 演示里的 .card 规则从变量读取数值，滑块会修改这些变量 */
+        .class-stage {
+            --card-bg: #ffffff;
+            --card-radius: 12px;
+            --card-pad: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .item {
+            flex: 1;
+            min-width: 120px;
+            font-size: 14px;
+        }
+
+        .item.card {
+            background: var(--card-bg);
+            border-radius: var(--card-radius);
+            padding: var(--card-pad);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .item h3 {
+            margin: 0 0 4px;
+            font-size: 16px;
+        }
+
+        .item p {
+            margin: 0;
+        }
+
+        .item label {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .code-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .code-pair .pane-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .hl {
+            color: #fbbf24;
+        }
+
+        @media (max-width: 680px) {
+            .code-pair {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">03 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 03</p>
+        <h1 class="lesson-title">Class: linking HTML and CSS</h1>
+        <p class="zh">类名：连接 HTML 和 CSS</p>
+
+        <section class="block">
+            <h2>How the connection works</h2>
+            <p class="zh">它们是怎么连起来的</p>
+            <ol>
+                <li>HTML gives an element a name tag: <code>&lt;div class="card"&gt;</code>
+                    <span class="zh">HTML 给元素贴一个名字标签</span></li>
+                <li>The page loads the CSS file: <code>&lt;link rel="stylesheet" href="style.css"&gt;</code>
+                    <span class="zh">页面加载 CSS 文件</span></li>
+                <li>CSS finds every element with that name and styles it: <code>.card { ... }</code>
+                    <span class="zh">CSS 找到所有叫这个名字的元素，给它们加样式</span></li>
+            </ol>
+            <p>The <b>dot</b> in <code>.card</code> means "every element whose class is card".</p>
+            <p class="zh">.card 里的"点"表示"所有 class 是 card 的元素"。</p>
+            <div class="tip">
+                <p>It's like a <b>shared style</b> in Figma. Define it once, use it everywhere, and change it in one place.</p>
+                <p class="zh">这就像 Figma 里的共享样式：定义一次，到处使用，改一处全部更新。</p>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: one rule, many cards</h2>
+            <p class="zh">动手试试：一条规则，控制多张卡片</p>
+            <div class="demo-body">
+                <div class="split">
+                    <div class="controls">
+                        <div class="control">
+                            <label>background <span class="value" id="bg-val">#ffffff</span></label>
+                            <input type="color" id="bg" value="#ffffff">
+                        </div>
+                        <div class="control">
+                            <label>border-radius <span class="value" id="radius-val">12px</span></label>
+                            <input type="range" id="radius" min="0" max="40" value="12">
+                        </div>
+                        <div class="control">
+                            <label>padding <span class="value" id="pad-val">16px</span></label>
+                            <input type="range" id="pad" min="4" max="40" value="16">
+                        </div>
+                        <p class="zh" style="margin:0">Uncheck a box to remove <code>class="card"</code> from that element.<br>取消勾选，就会去掉那个元素的类名。</p>
+                    </div>
+
+                    <div class="preview">
+                        <div class="class-stage" id="stage">
+                            <div class="item card"><h3>Card A</h3><p>Home page</p><label><input type="checkbox" checked data-card> class="card"</label></div>
+                            <div class="item card"><h3>Card B</h3><p>Home page</p><label><input type="checkbox" checked data-card> class="card"</label></div>
+                            <div class="item card"><h3>Card C</h3><p>Notes page</p><label><input type="checkbox" checked data-card> class="card"</label></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-pair">
+                    <div>
+                        <div class="pane-title">style.css</div>
+                        <pre><code id="css-out"></code></pre>
+                    </div>
+                    <div>
+                        <div class="pane-title">index.html</div>
+                        <pre><code id="html-out"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>VS Code tip</h2>
+            <p class="zh">VS Code 小技巧</p>
+            <p>Hold <b>Cmd</b> and hover over a class name in your HTML. VS Code shows the matching CSS.</p>
+            <p class="zh">按住 Cmd，把鼠标悬停在 HTML 里的类名上，VS Code 会显示对应的 CSS。</p>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="02-three-parts.html"><small>← Previous</small>HTML, CSS &amp; JavaScript</a>
+            <a class="next" href="04-figma-to-css.html"><small>Next lesson</small>From Figma to CSS →</a>
+        </nav>
+    </main>
+
+    <script>
+        const stage = document.getElementById("stage");
+        const bg = document.getElementById("bg");
+        const radius = document.getElementById("radius");
+        const pad = document.getElementById("pad");
+        const items = document.querySelectorAll(".item");
+
+        function update() {
+            // Change the shared rule once (只改一次共享规则)
+            stage.style.setProperty("--card-bg", bg.value);
+            stage.style.setProperty("--card-radius", radius.value + "px");
+            stage.style.setProperty("--card-pad", pad.value + "px");
+
+            document.getElementById("bg-val").textContent = bg.value;
+            document.getElementById("radius-val").textContent = radius.value + "px";
+            document.getElementById("pad-val").textContent = pad.value + "px";
+
+            document.getElementById("css-out").innerHTML =
+                '<span class="hl">.card</span> {\n' +
+                '    background: ' + bg.value + ';\n' +
+                '    border-radius: ' + radius.value + 'px;\n' +
+                '    padding: ' + pad.value + 'px;\n' +
+                '}';
+
+            // Show which elements still have the class (显示哪些元素还有这个类名)
+            let html = "";
+            items.forEach(function (item) {
+                const name = item.querySelector("h3").textContent;
+                if (item.classList.contains("card")) {
+                    html += '&lt;div class="<span class="hl">card</span>"&gt;' + name + '&lt;/div&gt;\n';
+                } else {
+                    html += '&lt;div&gt;' + name + '&lt;/div&gt;\n';
+                }
+            });
+            document.getElementById("html-out").innerHTML = html;
+        }
+
+        [bg, radius, pad].forEach(function (input) {
+            input.addEventListener("input", update);
+        });
+
+        document.querySelectorAll("[data-card]").forEach(function (box) {
+            box.addEventListener("change", function () {
+                box.closest(".item").classList.toggle("card", box.checked);
+                update();
+            });
+        });
+
+        update();
+    </script>
+</body>
+</html>

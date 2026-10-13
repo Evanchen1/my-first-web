@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13 · Device mode &amp; screenshots</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .device-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            margin-bottom: 12px;
+            background: #f1f3f4;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .device-bar select,
+        .device-bar input {
+            padding: 4px 6px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: white;
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .device-bar input {
+            width: 58px;
+        }
+
+        .device-bar button {
+            padding: 4px 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .device-bar .zoom {
+            margin-left: auto;
+            color: var(--text-muted);
+        }
+
+        .device-stage {
+            display: flex;
+            justify-content: center;
+            padding: 16px;
+            background: #e8e8ed;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .device {
+            position: relative;
+            background: white;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .device iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: none;
+            transform-origin: top left;
+        }
+
+        .shot-list code {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">13 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 13 · PART 3</p>
+        <h1 class="lesson-title">Device mode &amp; screenshots</h1>
+        <p class="zh">设备模式与截图</p>
+
+        <section class="block">
+            <h2>Device mode</h2>
+            <p class="zh">设备模式</p>
+            <p>Press <code>Cmd + Shift + M</code> inside DevTools, or click the 📱 icon at its top-left. The page now renders at a phone or tablet size, so you can check your responsive design without a real device.</p>
+            <p class="zh">在开发者工具里按 Cmd + Shift + M，或者点左上角的 📱 图标。页面会按手机或平板的尺寸显示，不用真机也能检查响应式设计。</p>
+            <ul>
+                <li><b>Dimensions</b> menu: pick a device like iPhone or iPad, or choose <b>Responsive</b> and drag the edges
+                    <span class="zh">尺寸菜单：选一个设备，或者选 Responsive 然后拖动边缘</span></li>
+                <li><b>Rotate</b> button: switch between portrait and landscape
+                    <span class="zh">旋转按钮：切换竖屏和横屏</span></li>
+                <li><b>⋮ menu → Show media queries</b>: shows your breakpoints as bars you can click
+                    <span class="zh">⋮ 菜单 → Show media queries：把断点显示成可点击的色条</span></li>
+                <li><b>Throttling</b>: choose a slow network to see how your page loads on weak signal
+                    <span class="zh">网络节流：选择慢速网络，看看信号差时页面怎么加载</span></li>
+            </ul>
+            <div class="tip">
+                <p>Device mode is a <b>simulation</b>. It's great for layouts, but always check the final design on a real phone too, since touch, fonts, and the browser's own bars can differ.</p>
+                <p class="zh">设备模式只是模拟。检查布局很好用，但最终还是要在真机上看一下，因为触摸、字体和浏览器自身的工具栏可能不一样。</p>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: view this website on different devices</h2>
+            <p class="zh">动手试试：在不同设备上查看这个网站</p>
+            <div class="demo-body">
+                <div class="device-bar">
+                    <select id="preset">
+                        <option value="375x667">iPhone SE</option>
+                        <option value="393x852" selected>iPhone 15 Pro</option>
+                        <option value="412x915">Android (Pixel)</option>
+                        <option value="768x1024">iPad Mini</option>
+                        <option value="1280x800">Laptop</option>
+                        <option value="custom">Responsive</option>
+                    </select>
+                    <input type="number" id="w" min="280" max="1600"> ×
+                    <input type="number" id="h" min="300" max="1400">
+                    <button id="rotate" title="Rotate">⟲ Rotate</button>
+                    <span class="zoom" id="zoom"></span>
+                </div>
+                <div class="device-stage" id="stage">
+                    <div class="device" id="device">
+                        <iframe id="frame" src="../index.html" title="This website in a device frame"></iframe>
+                    </div>
+                </div>
+                <p class="zh" style="margin:8px 0 0">The page inside is real. Scroll it and click the lesson cards.<br>里面的页面是真实的，可以滚动，也可以点课时卡片。</p>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>Screenshots without a screenshot app</h2>
+            <p class="zh">不用截图软件也能截图</p>
+            <p>Press <code>Cmd + Shift + P</code> in DevTools to open the <b>Command Menu</b>, type "screenshot", and pick one:</p>
+            <p class="zh">在开发者工具里按 Cmd + Shift + P 打开命令菜单，输入 "screenshot"，然后选一个：</p>
+            <div class="table-wrap shot-list">
+                <table>
+                    <tr><th>Command</th><th>What you get</th></tr>
+                    <tr><td><code>Capture full size screenshot</code></td><td>The <b>whole page</b>, top to bottom, even the parts you'd have to scroll to<br><span class="zh">整个页面从上到下，包括需要滚动才能看到的部分</span></td></tr>
+                    <tr><td><code>Capture node screenshot</code></td><td>Only the <b>selected element</b>, cropped exactly. Great for a single component<br><span class="zh">只截选中的元素，裁切精准，适合截单个组件</span></td></tr>
+                    <tr><td><code>Capture area screenshot</code></td><td>Drag to choose an area<br><span class="zh">拖动选择一个区域</span></td></tr>
+                    <tr><td><code>Capture screenshot</code></td><td>What's visible right now<br><span class="zh">当前可见的部分</span></td></tr>
+                </table>
+            </div>
+            <div class="tip">
+                <p>Turn on device mode first, then capture a full size screenshot. You get a clean, full-length mobile screenshot of any page, at the device's pixel ratio. Perfect for design reviews.</p>
+                <p class="zh">先打开设备模式，再截完整页面，就能得到任何页面干净的、完整长度的手机截图，按设备像素比输出。非常适合设计评审。</p>
+            </div>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="12-edit-styles.html"><small>← Previous</small>Edit styles live</a>
+            <a class="next" href="14-design-qa.html"><small>Next lesson</small>Design QA toolkit →</a>
+        </nav>
+    </main>
+
+    <script>
+        const preset = document.getElementById("preset");
+        const wInput = document.getElementById("w");
+        const hInput = document.getElementById("h");
+        const stage = document.getElementById("stage");
+        const device = document.getElementById("device");
+        const frame = document.getElementById("frame");
+
+        // Size the device and shrink it to fit the stage (设置设备尺寸，并缩放到能放进舞台)
+        function render() {
+            const w = Number(wInput.value) || 375;
+            const h = Number(hInput.value) || 667;
+            const available = stage.clientWidth - 32;   // Stage padding is 16px × 2 (舞台内边距)
+            const scale = Math.min(1, available / w, 560 / h);
+
+            frame.style.width = w + "px";
+            frame.style.height = h + "px";
+            frame.style.transform = "scale(" + scale + ")";
+            device.style.width = (w * scale) + "px";
+            device.style.height = (h * scale) + "px";
+            document.getElementById("zoom").textContent = Math.round(scale * 100) + "%";
+        }
+
+        function usePreset() {
+            if (preset.value === "custom") return;
+            const parts = preset.value.split("x");
+            wInput.value = parts[0];
+            hInput.value = parts[1];
+            render();
+        }
+
+        preset.addEventListener("change", usePreset);
+
+        // Typing a size switches to "Responsive" (手动输入尺寸，就切换到 Responsive)
+        [wInput, hInput].forEach(function (input) {
+            input.addEventListener("input", function () {
+                preset.value = "custom";
+                render();
+            });
+        });
+
+        document.getElementById("rotate").addEventListener("click", function () {
+            const w = wInput.value;
+            wInput.value = hInput.value;
+            hInput.value = w;
+            render();
+        });
+
+        window.addEventListener("resize", render);
+        usePreset();
+    </script>
+</body>
+</html>

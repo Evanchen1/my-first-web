@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04 · From Figma to CSS</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .box-stage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 260px;
+        }
+
+        #box {
+            width: 220px;
+            font-size: 15px;
+        }
+
+        #box h3 {
+            margin: 0 0 4px;
+            font-size: 17px;
+        }
+
+        #box p {
+            margin: 0;
+            color: #6b6b76;
+            font-size: 13px;
+        }
+
+        .code-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 16px 0 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">04 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 04</p>
+        <h1 class="lesson-title">From Figma to CSS</h1>
+        <p class="zh">从 Figma 属性到 CSS</p>
+
+        <section class="block">
+            <p>Most properties in Figma's right panel have a CSS twin. Once you know the names, reading CSS feels familiar.</p>
+            <p class="zh">Figma 右侧面板里的大多数属性，在 CSS 里都有对应的写法。记住名字后，读 CSS 就会很亲切。</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Figma</th><th>CSS</th></tr>
+                    <tr><td>Fill</td><td><code>background</code></td></tr>
+                    <tr><td>Stroke</td><td><code>border</code></td></tr>
+                    <tr><td>Corner radius</td><td><code>border-radius</code></td></tr>
+                    <tr><td>Padding</td><td><code>padding</code></td></tr>
+                    <tr><td>Drop shadow</td><td><code>box-shadow</code></td></tr>
+                    <tr><td>Layer opacity</td><td><code>opacity</code></td></tr>
+                    <tr><td>Auto Layout</td><td><code>display: flex</code> (Lesson 05)</td></tr>
+                    <tr><td>Clip content</td><td><code>overflow: hidden</code></td></tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Try it: a Figma-style properties panel</h2>
+            <p class="zh">动手试试：一个 Figma 风格的属性面板</p>
+            <div class="demo-body">
+                <div class="split">
+                    <div class="controls">
+                        <div class="control">
+                            <label>Fill <span class="value" id="fill-val"></span></label>
+                            <input type="color" id="fill" value="#ffffff">
+                        </div>
+                        <div class="control">
+                            <span class="label">Stroke <span class="value" id="stroke-val"></span></span>
+                            <div class="row-2">
+                                <input type="range" id="stroke" min="0" max="8" value="1">
+                                <input type="color" id="stroke-color" value="#d9d9e3">
+                            </div>
+                        </div>
+                        <div class="control">
+                            <label>Corner radius <span class="value" id="radius-val"></span></label>
+                            <input type="range" id="radius" min="0" max="48" value="16">
+                        </div>
+                        <div class="control">
+                            <label>Padding <span class="value" id="pad-val"></span></label>
+                            <input type="range" id="pad" min="0" max="48" value="20">
+                        </div>
+                        <div class="control">
+                            <label>Shadow Y <span class="value" id="sy-val"></span></label>
+                            <input type="range" id="sy" min="0" max="24" value="6">
+                        </div>
+                        <div class="control">
+                            <label>Shadow blur <span class="value" id="sb-val"></span></label>
+                            <input type="range" id="sb" min="0" max="48" value="20">
+                        </div>
+                        <div class="control">
+                            <label>Opacity <span class="value" id="op-val"></span></label>
+                            <input type="range" id="op" min="10" max="100" value="100">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="preview box-stage">
+                            <div id="box">
+                                <h3>Card title</h3>
+                                <p>Drag the sliders on the left.</p>
+                            </div>
+                        </div>
+                        <div class="code-head">
+                            <span>Generated CSS</span>
+                            <button class="btn ghost" id="copy" style="padding:4px 10px;font-size:12px">Copy</button>
+                        </div>
+                        <pre><code id="css-out"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>Shortcut: browser DevTools</h2>
+            <p class="zh">捷径：浏览器开发者工具</p>
+            <p>On any website, right-click and choose <b>Inspect</b>, or press <b>Cmd + Option + I</b>. You can see the CSS of every element and change it live. Changes only affect your screen, so it's safe to play.</p>
+            <p class="zh">在任何网站上右键选"检查"，或按 Cmd + Option + I。你能看到每个元素的 CSS，还能实时修改。修改只影响你自己的屏幕，可以放心玩。</p>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="03-class.html"><small>← Previous</small>Class: linking HTML and CSS</a>
+            <a class="next" href="05-flexbox.html"><small>Next lesson</small>Flexbox = Auto Layout →</a>
+        </nav>
+    </main>
+
+    <script>
+        const box = document.getElementById("box");
+        const ids = ["fill", "stroke", "stroke-color", "radius", "pad", "sy", "sb", "op"];
+        const input = {};
+        ids.forEach(function (id) {
+            input[id] = document.getElementById(id);
+            input[id].addEventListener("input", update);
+        });
+
+        let cssText = "";
+
+        function update() {
+            const v = {
+                fill: input.fill.value,
+                stroke: input.stroke.value + "px solid " + input["stroke-color"].value,
+                radius: input.radius.value + "px",
+                pad: input.pad.value + "px",
+                shadow: "0 " + input.sy.value + "px " + input.sb.value + "px rgba(0, 0, 0, 0.12)",
+                opacity: (input.op.value / 100).toString()
+            };
+
+            // Apply to the box (应用到方块上)
+            box.style.background = v.fill;
+            box.style.border = v.stroke;
+            box.style.borderRadius = v.radius;
+            box.style.padding = v.pad;
+            box.style.boxShadow = v.shadow;
+            box.style.opacity = v.opacity;
+
+            // Show values next to the labels (在标签旁显示数值)
+            document.getElementById("fill-val").textContent = v.fill;
+            document.getElementById("stroke-val").textContent = input.stroke.value + "px";
+            document.getElementById("radius-val").textContent = v.radius;
+            document.getElementById("pad-val").textContent = v.pad;
+            document.getElementById("sy-val").textContent = input.sy.value + "px";
+            document.getElementById("sb-val").textContent = input.sb.value + "px";
+            document.getElementById("op-val").textContent = input.op.value + "%";
+
+            cssText =
+                ".card {\n" +
+                "    background: " + v.fill + ";  /* Fill */\n" +
+                "    border: " + v.stroke + ";  /* Stroke */\n" +
+                "    border-radius: " + v.radius + ";  /* Corner radius */\n" +
+                "    padding: " + v.pad + ";  /* Padding */\n" +
+                "    box-shadow: " + v.shadow + ";  /* Drop shadow */\n" +
+                "    opacity: " + v.opacity + ";  /* Opacity */\n" +
+                "}";
+            document.getElementById("css-out").textContent = cssText;
+        }
+
+        document.getElementById("copy").addEventListener("click", function () {
+            const button = this;
+            navigator.clipboard.writeText(cssText).then(function () {
+                button.textContent = "Copied ✓";
+                setTimeout(function () { button.textContent = "Copy"; }, 1500);
+            });
+        });
+
+        update();
+    </script>
+</body>
+</html>

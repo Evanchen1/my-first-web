@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14 · Design QA toolkit</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .seg.wide button {
+            font-family: var(--font);
+        }
+
+        /* Sample UI used by the demos (演示用的示例界面) */
+        .sample {
+            --s-bg: #ffffff;
+            --s-text: #1d1d24;
+            --s-muted: #6b6b76;
+            --s-line: #e5e5ea;
+            padding: 20px;
+            border-radius: 12px;
+            background: var(--s-bg);
+            color: var(--s-text);
+            border: 1px solid var(--s-line);
+            transition: background 0.2s, color 0.2s;
+        }
+
+        /* What the page looks like when "prefers-color-scheme: dark" is on (深色模式下的样子) */
+        .sample.dark {
+            --s-bg: #17171f;
+            --s-text: #f2f2f7;
+            --s-muted: #a1a1b0;
+            --s-line: #2e2e3a;
+        }
+
+        .sample h3 {
+            margin: 0 0 4px;
+        }
+
+        .sample p {
+            margin: 0 0 14px;
+            color: var(--s-muted);
+            font-size: 14px;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .chip {
+            padding: 4px 12px;
+            border-radius: 999px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .chip.ok { background: #16a34a; }
+        .chip.err { background: #dc2626; }
+        .chip.warn { background: #f59e0b; }
+        .chip.info { background: #2563eb; }
+
+        .bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 80px;
+            margin-bottom: 16px;
+        }
+
+        .bars i {
+            flex: 1;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .sample .action {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #e11d48;
+            color: white;
+            font-weight: 600;
+        }
+
+        .sample .action.secondary {
+            background: #22c55e;
+        }
+
+        .sample[contenteditable="true"] {
+            outline: 2px dashed var(--accent);
+            outline-offset: 4px;
+        }
+
+        /* Mini CSS Overview (迷你 CSS 概览) */
+        .overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .overview > * {
+            min-width: 0;
+        }
+
+        .overview h3 {
+            margin: 0 0 8px;
+            font-size: 14px;
+        }
+
+        .swatches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .swatch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            width: 64px;
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .swatch i {
+            width: 64px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .font-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 4px 0;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .font-row span:last-child {
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        @media (max-width: 680px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Color filters that approximate color vision deficiencies (近似模拟色觉障碍的颜色滤镜) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <filter id="protanopia"><feColorMatrix values="0.567 0.433 0 0 0  0.558 0.442 0 0 0  0 0.242 0.758 0 0  0 0 0 1 0"/></filter>
+        <filter id="deuteranopia"><feColorMatrix values="0.625 0.375 0 0 0  0.7 0.3 0 0 0  0 0.3 0.7 0 0  0 0 0 1 0"/></filter>
+        <filter id="tritanopia"><feColorMatrix values="0.95 0.05 0 0 0  0 0.433 0.567 0 0  0 0.475 0.525 0 0  0 0 0 1 0"/></filter>
+    </svg>
+
+    <header class="topbar">
+        <a href="../index.html">← All lessons</a>
+        <span class="step">14 / 14</span>
+    </header>
+
+    <main class="container">
+        <p class="eyebrow">LESSON 14 · PART 3</p>
+        <h1 class="lesson-title">Design QA toolkit</h1>
+        <p class="zh">设计走查工具箱</p>
+
+        <section class="block">
+            <p>When a page is built, DevTools helps you check it the way a designer would: colors for every user, dark mode, real fonts, and consistency. Most of these live in the <b>Rendering</b> tab: press <code>Cmd + Shift + P</code> and type <b>Show Rendering</b>.</p>
+            <p class="zh">页面做好后，开发者工具可以帮你用设计师的眼光检查：每个用户看到的颜色、深色模式、真实字体，以及一致性。大部分功能在 Rendering 标签页里：按 Cmd + Shift + P，输入 Show Rendering。</p>
+        </section>
+
+        <section class="demo">
+            <h2>Tool 1: Emulate vision deficiencies</h2>
+            <p class="zh">工具 1：模拟色觉障碍</p>
+            <div class="demo-body">
+                <p>About 1 in 12 men has some kind of color vision deficiency. In Rendering, find <b>Emulate vision deficiencies</b>. Try it here: can you still tell "Error" from "Success"?</p>
+                <p class="zh">大约每 12 个男性中就有 1 个有某种色觉障碍。在 Rendering 里找到 Emulate vision deficiencies。在这里试试：你还能分清 "Error" 和 "Success" 吗？</p>
+                <div class="seg wide" id="vision" style="margin-bottom:14px">
+                    <button data-f="none" class="on">Normal</button>
+                    <button data-f="url(#protanopia)">Protanopia</button>
+                    <button data-f="url(#deuteranopia)">Deuteranopia</button>
+                    <button data-f="url(#tritanopia)">Tritanopia</button>
+                    <button data-f="grayscale(1)">Achromatopsia</button>
+                    <button data-f="blur(2px)">Blurred vision</button>
+                </div>
+                <div class="sample" id="vision-sample">
+                    <h3>Order status</h3>
+                    <p>Colors only, no icons or text hints.</p>
+                    <div class="chips">
+                        <span class="chip ok">Success</span>
+                        <span class="chip err">Error</span>
+                        <span class="chip warn">Warning</span>
+                        <span class="chip info">Info</span>
+                    </div>
+                    <div class="bars">
+                        <i style="height:40%;background:#16a34a"></i>
+                        <i style="height:75%;background:#dc2626"></i>
+                        <i style="height:55%;background:#f59e0b"></i>
+                        <i style="height:90%;background:#2563eb"></i>
+                        <i style="height:30%;background:#a855f7"></i>
+                    </div>
+                    <button class="action">Delete</button>
+                    <button class="action secondary">Confirm</button>
+                </div>
+                <div class="tip">
+                    <p>Lesson: never use color as the only signal. Add an icon, a label, or a pattern too. These filters are approximations, and DevTools' version is more accurate.</p>
+                    <p class="zh">结论：不要只靠颜色传达信息，同时加上图标、文字或图案。这里的滤镜是近似效果，开发者工具里的更准确。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Tool 2: Emulate dark mode</h2>
+            <p class="zh">工具 2：模拟深色模式</p>
+            <div class="demo-body">
+                <p>In Rendering, set <b>Emulate CSS media feature prefers-color-scheme</b> to <code>dark</code>. Pages that support dark mode switch instantly, without changing your Mac's settings.</p>
+                <p class="zh">在 Rendering 里，把 Emulate CSS media feature prefers-color-scheme 设为 dark。支持深色模式的页面会立刻切换，不用改 Mac 的系统设置。</p>
+                <div class="seg wide" id="scheme" style="margin-bottom:14px;max-width:320px">
+                    <button data-s="light" class="on">prefers-color-scheme: light</button>
+                    <button data-s="dark">dark</button>
+                </div>
+                <div class="sample" id="scheme-sample">
+                    <h3>Weekly report</h3>
+                    <p>Check text contrast, borders, and shadows in both modes.</p>
+                    <div class="chips">
+                        <span class="chip ok">+12% visits</span>
+                        <span class="chip info">3 new lessons</span>
+                    </div>
+                </div>
+<pre style="margin-top:14px"><code>/* How a page supports dark mode (页面如何支持深色模式) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #17171f;
+        --text: #f2f2f7;
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Tool 3: CSS Overview, a design audit in one click</h2>
+            <p class="zh">工具 3：CSS 概览，一键做设计审查</p>
+            <div class="demo-body">
+                <p>In DevTools, open <b>⋮ → More tools → CSS overview</b> and click <b>Capture overview</b>. It lists every color, font, and font size on the page. Five slightly different greys? That's a design system problem worth fixing. Here's a mini version that scans <b>this page</b>:</p>
+                <p class="zh">在开发者工具里打开 ⋮ → More tools → CSS overview，点 Capture overview。它会列出页面上所有颜色、字体和字号。出现五种差不多的灰色？那就是值得修复的设计系统问题。下面是一个扫描本页的迷你版：</p>
+                <button class="btn" id="scan">Capture overview</button>
+                <div class="overview" id="overview" style="margin-top:16px"></div>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2>Tool 4: Edit text right on the page</h2>
+            <p class="zh">工具 4：直接在页面上改文字</p>
+            <div class="demo-body">
+                <p>Want to test a longer title or a German translation? Open the <b>Console</b> tab and run <code>document.designMode = "on"</code>. Now you can click any text on the page and type, like a text layer in Figma. Refresh to undo.</p>
+                <p class="zh">想测试更长的标题，或者德语翻译？打开 Console 标签页，运行 document.designMode = "on"。然后就能点击页面上任何文字直接输入，就像 Figma 的文字图层。刷新即可还原。</p>
+                <button class="btn ghost" id="edit-toggle">designMode = "on"</button>
+                <div class="sample" id="edit-sample" style="margin-top:14px">
+                    <h3>Click me and type a much longer title</h3>
+                    <p>Does the layout still hold? Does the text wrap nicely?</p>
+                    <button class="action secondary">Buy now</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="block">
+            <h2>One more: which font is really used?</h2>
+            <p class="zh">还有一个：实际用的是哪个字体？</p>
+            <p>CSS lists fonts in order, like <code>font-family: "Inter", "PingFang SC", sans-serif</code>. If the first one fails to load, the browser quietly uses the next. Select an element, open <b>Computed</b>, and scroll to the bottom: <b>Rendered Fonts</b> shows the font actually drawn on screen.</p>
+            <p class="zh">CSS 会按顺序列出字体。如果第一个没加载成功，浏览器会悄悄换用下一个。选中元素，打开 Computed，滚到最底部：Rendered Fonts 显示屏幕上真正使用的字体。</p>
+        </section>
+
+        <section class="block">
+            <h2>Part 3 cheat sheet</h2>
+            <p class="zh">第三部分速查表</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Task</th><th>Shortcut / where</th></tr>
+                    <tr><td>Open DevTools</td><td><code>Cmd + Option + I</code></td></tr>
+                    <tr><td>Pick an element</td><td><code>Cmd + Shift + C</code></td></tr>
+                    <tr><td>Device mode</td><td><code>Cmd + Shift + M</code></td></tr>
+                    <tr><td>Command Menu</td><td><code>Cmd + Shift + P</code></td></tr>
+                    <tr><td>Full page screenshot</td><td>Command Menu → Capture full size screenshot</td></tr>
+                    <tr><td>Color vision, dark mode</td><td>Command Menu → Show Rendering</td></tr>
+                    <tr><td>All your CSS edits</td><td>Command Menu → Show Changes</td></tr>
+                    <tr><td>Colors and fonts audit</td><td>⋮ → More tools → CSS overview</td></tr>
+                    <tr><td>Edit text on the page</td><td>Console → <code>document.designMode = "on"</code></td></tr>
+                </table>
+            </div>
+            <p style="margin-top:14px">Menus can move a little between Chrome versions. If something isn't where this page says, search for it in the Command Menu.</p>
+            <p class="zh">不同 Chrome 版本的菜单位置可能略有变化。如果找不到，就在命令菜单里搜索。</p>
+        </section>
+
+        <nav class="pager">
+            <a class="prev" href="13-device-mode.html"><small>← Previous</small>Device mode &amp; screenshots</a>
+            <a class="next" href="../index.html"><small>Finished all 14! 🎉</small>Back to all lessons →</a>
+        </nav>
+    </main>
+
+    <script>
+        // Make one segmented control work (让一组分段按钮可以切换)
+        function segmented(id, onPick) {
+            const group = document.getElementById(id);
+            group.addEventListener("click", function (event) {
+                const button = event.target.closest("button");
+                if (!button) return;
+                group.querySelectorAll("button").forEach(function (b) { b.classList.remove("on"); });
+                button.classList.add("on");
+                onPick(button);
+            });
+        }
+
+        // Tool 1: apply a filter to the sample (工具 1：给示例加滤镜)
+        segmented("vision", function (button) {
+            document.getElementById("vision-sample").style.filter = button.dataset.f;
+        });
+
+        // Tool 2: dark mode = add the "dark" class (工具 2：深色模式 = 加上 dark 类名)
+        segmented("scheme", function (button) {
+            document.getElementById("scheme-sample").classList.toggle("dark", button.dataset.s === "dark");
+        });
+
+        // Tool 3: collect every color and font size on this page (工具 3：收集本页所有颜色和字号)
+        function toHex(rgb) {
+            const m = rgb.match(/\d+(\.\d+)?/g);
+            if (!m || (m[3] !== undefined && Number(m[3]) === 0)) return null;   // Skip transparent (跳过透明色)
+            return "#" + m.slice(0, 3).map(function (n) {
+                return Number(n).toString(16).padStart(2, "0");
+            }).join("");
+        }
+
+        document.getElementById("scan").addEventListener("click", function () {
+            const colors = {};
+            const fonts = {};
+
+            document.querySelectorAll("body *").forEach(function (el) {
+                if (el.closest("svg, #overview")) return;
+                const s = getComputedStyle(el);
+                [s.color, s.backgroundColor].forEach(function (value) {
+                    const hex = toHex(value);
+                    if (hex) colors[hex] = (colors[hex] || 0) + 1;
+                });
+                if (el.childNodes.length && el.textContent.trim()) {
+                    const key = s.fontSize + " · " + s.fontWeight;
+                    fonts[key] = (fonts[key] || 0) + 1;
+                }
+            });
+
+            // Most used first (用得最多的排前面)
+            function sorted(map) {
+                return Object.entries(map).sort(function (a, b) { return b[1] - a[1]; });
+            }
+
+            const colorList = sorted(colors);
+            const fontList = sorted(fonts);
+
+            let html = "<div><h3>" + colorList.length + " colors</h3><div class=\"swatches\">";
+            colorList.slice(0, 24).forEach(function (c) {
+                html += '<div class="swatch"><i style="background:' + c[0] + '"></i>' + c[0] + "</div>";
+            });
+            html += "</div></div><div><h3>" + fontList.length + " font size / weight pairs</h3>";
+            fontList.slice(0, 12).forEach(function (f) {
+                html += '<div class="font-row"><span>' + f[0] + "</span><span>× " + f[1] + "</span></div>";
+            });
+            html += "</div>";
+            document.getElementById("overview").innerHTML = html;
+        });
+
+        // Tool 4: make the sample editable, like designMode (工具 4：让示例可编辑，就像 designMode)
+        const editSample = document.getElementById("edit-sample");
+        document.getElementById("edit-toggle").addEventListener("click", function () {
+            const on = editSample.contentEditable !== "true";
+            editSample.contentEditable = on ? "true" : "false";
+            this.textContent = on ? 'designMode = "off"' : 'designMode = "on"';
+            if (on) editSample.querySelector("h3").focus();
+        });
+    </script>
+</body>
+</html>
