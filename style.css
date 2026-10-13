@@ -1,0 +1,76 @@
+/* Whole page (整个页面) */
+body {
+    font-family: sans-serif;
+    background: #f5f5f7;          /* Figma: Fill */
+    padding: 2rem;                /* 2rem = 32px */
+}
+
+/* Row of cards = Auto Layout (horizontal) */
+.card-row {
+    display: flex;                /* Figma: Auto Layout */
+    flex-direction: row;          /* Figma: horizontal direction */
+    gap: 16px;                    /* Figma: Gap */
+}
+
+/* Each card (每张卡片) */
+.card {
+    flex: 1;                      /* Figma: Fill container */
+    background: white;            /* Figma: Fill */
+    border: 1px solid #ddd;       /* Figma: Stroke */
+    border-radius: 12px;          /* Figma: Corner radius */
+    padding: 24px;                /* Figma: Padding */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);  /* Figma: Drop shadow */
+}
+
+.card h2 {
+    margin: 0 0 8px;
+    color: #4f46e5;
+}
+
+/* Button (按钮) */
+button {
+    margin-top: 24px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: #4f46e5;
+    color: white;
+    font-size: 1rem;              /* 1rem = 16px */
+    cursor: pointer;              /* Show a hand cursor (鼠标变成小手) */
+}
+
+button:hover {
+    opacity: 0.8;                 /* Figma: Opacity, on hover */
+}
+
+/* Dark theme, turned on by JavaScript (深色主题，由 JS 打开) */
+body.dark {
+    background: #1e1e2e;
+    color: white;
+}
+
+body.dark .card {
+    background: #2a2a3c;
+    border-color: #444;
+}
+
+/* Responsive: on screens narrower than 600px, stack cards vertically */
+/* 响应式：屏幕宽度小于 600px 时，卡片改成竖排 */
+@media (max-width: 600px) {
+    .card-row {
+        flex-direction: column;   /* Figma: vertical Auto Layout */
+    }
+}
+
+/* Links (链接) */
+.link {
+    display: inline-block;
+    margin-bottom: 16px;
+    color: #4f46e5;
+    text-decoration: none;        /* Remove the underline (去掉下划线) */
+    font-weight: bold;
+}
+
+.link:hover {
+    text-decoration: underline;   /* Show underline on hover (悬停时显示下划线) */
+}

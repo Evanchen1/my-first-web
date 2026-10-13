@@ -1,0 +1,7 @@
+# Keep the G123 game list page private (G123 页面不公开)
+games.html
+games.css
+images/
+
+# macOS system files (macOS 系统文件)
+.DS_Store
